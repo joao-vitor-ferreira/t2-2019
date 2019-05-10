@@ -1,0 +1,79 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "Retangulo.h"
+#include "Circulo.h"
+#include "Comandos.h"
+#include "CalculoCirculoRetangulo.h"
+#include "Svg.h"
+
+int main (int argc, char **argv){
+	FILE *svgMain, *svgQry;
+	Retangulo r;
+	Item obj;
+	Circulo c;
+	Vector vetor;
+	int a, b;
+	double  svgW, svgH;
+	char *str = NULL, *str2 = NULL;	
+	svgMain = NULL; 
+	svgW = 0.0;
+	svgH = 0.0;
+	str = pegaParametro(argc, argv, "-o");
+	if (str == NULL){
+		printf("Diretório de saída não informado\n");
+		return 0;
+	}
+	str = pegaParametro(argc, argv, "-f");
+	if (str == NULL){
+		printf("Arquivo de entrada não informado\n");
+		return 0;
+	}
+	str = funcSvgMain(argc, argv, "-f");
+	svgMain = fopen(str, "w");
+	funcFree(&str);
+	fprintf(svgMain, "                                                                  ");
+	leituraGeo(argc, argv, &svgH, &svgW, svgMain, &vetor);
+	funcFree(&str);
+	printSvgVector(vetor, svgMain);
+	fprintf(svgMain, "</svg>");
+	rewind(svgMain);
+	svgH += 10.0;
+	svgW += 100.0;
+	fprintf(svgMain, "<svg width=\"%f\" height=\"%f\">\n", svgW, svgH);
+	fclose(svgMain);
+	str = pegaParametro(argc, argv, "-q");
+	if (str != NULL){
+		str = funcSvg(argc, argv);
+		svgQry = fopen(str, "w");
+		funcFree(&str);
+		fprintf(svgQry, "                                                                  ");
+		leituraQry(argc, argv, &svgH, &svgW, svgQry, vetor);
+		printSvgVector(vetor, svgQry);
+		fprintf(svgQry, "</svg>");
+		rewind(svgQry);
+		svgH += 10.0;
+		svgW += 100.0;
+		fprintf(svgQry, "<svg width=\"%f\" height=\"%f\">\n", svgW, svgH);
+		fclose(svgQry);
+	}
+	
+	for (a=0; a<getSizeVector(vetor); a++){
+		obj = getObjVector(vetor, a);
+		if (obj != NULL){
+			b = getTypeObj(vetor, a);
+			if (b == 0){
+				c = getObjVector(vetor, a);
+				if (c != NULL){
+					freeCirculo(c);
+				}
+			} else{
+				r = getObjVector(vetor, a);
+				if (r != NULL){
+					freeRetangulo(r);
+				}
+			}
+		}
+		
+	}
+	freeVector(vetor);
+}
