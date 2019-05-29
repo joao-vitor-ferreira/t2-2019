@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include "Comandos.h"
+#include "Lista.h"
+#include "Quadra.h"
+#include "Torre.h"
+#include "Semaforo.h"
+#include "Hidrante.h"
 #include "Retangulo.h"
 #include "Circulo.h"
 #include "CalculoCirculoRetangulo.h"
@@ -215,17 +220,23 @@ void svgCmpRetangulo(double *svgH, double *svgW, double x, double y, double heig
 		*svgH = y + height;
 }
 
-void leituraGeo(int argc, char **argv, double *svgH, double *svgW, FILE *svgMain, Vector *vetor){
-	int NX = 1000, i;
+void leituraGeo(int argc, char **argv, double *svgH, double *svgW, FILE *svgMain, Cidade *city, Vector *vetor){
+	int NQ = 1000, NS = 1000, NH = 1000, NR = 1000, NF = 1000, i, *type;
 	FILE *entrada = NULL;
 	Circulo c1 = NULL;
+	Posic p1;
 	Retangulo r1 = NULL;
+	Quadra q1;
+	Semaforo s1;
+	Torre t1;
+	Hidrante h1;
 	char *line = NULL, *word = NULL, *cor1 = NULL, *cor2 = NULL, 
-	*aux = NULL, *aux2 = NULL, *aux3 = NULL, *text = NULL;
+	*aux = NULL, *aux2 = NULL, *aux3 = NULL, *text = NULL, *cep;
 	double raio, x, y, height, width;
 	line = (char*)malloc(sizeof(char)*200);
 	word =(char*)malloc(sizeof(char)*30);
 	cor1 = (char*)malloc(sizeof(char)*20);
+	cep = (char*)malloc(sizeof(char)*20);
 	cor2 = (char*)malloc(sizeof(char)*20);
 	text = (char*)malloc(sizeof(char)*200);
 	aux = colocaBarra(pegaParametro(argc, argv, "-e"));
@@ -239,9 +250,9 @@ void leituraGeo(int argc, char **argv, double *svgH, double *svgW, FILE *svgMain
 	fscanf(entrada, "%[^\n]\n", line);
 	sscanf(line, "%s", word);
 	if (strcmp(word, "nx") == 0){
-		sscanf(line, "%s %d", word, &NX);
+		sscanf("%s %d %d %d %d %d", word, NF, NQ, NH, NS, NR);
 	}
-	*vetor = createVector(NX);
+	*city = createCidade(NF, NQ, NH, NS, NR);
 	rewind (entrada);
 
 	while(!feof(entrada)){
@@ -254,24 +265,38 @@ void leituraGeo(int argc, char **argv, double *svgH, double *svgW, FILE *svgMain
 			strcpy(aux, cor1);
 			strcpy(aux2, cor2);
 			c1 = creatCirculo(i, raio, x, y, aux2, aux);
-			addVector(*vetor, c1, i, 0);
-			c1 = getObjVector(*vetor, i);
+			addForma(*city, c1, 0);
+			p1 = searchForma(*city, i, type);
 			svgCmpCirculo(svgH, svgW, x, y, raio);
-		} else if (strcmp(word, "r") == 0){
+		}else if (strcmp(word, "r") == 0){
 			sscanf(line, "%s %d %lf %lf %lf %lf %s %s", word, &i, &width, &height, &x, &y, cor1, cor2);
 			aux = (char*)malloc(sizeof(char)*(strlen(cor1) + 1));
 			aux2 = (char*)malloc(sizeof(char)*(strlen(cor2) + 1));
 			strcpy(aux, cor1);
 			strcpy(aux2, cor2);
 			r1 = creatRetangulo(i, width, height, x, y, aux2, aux);
-			addVector(*vetor, r1, i, 1);
-			r1 = getObjVector(*vetor, i);
+			addForma(*city, r1, 1);
+			p1 = searchForma(*city, i, type);
 			svgCmpRetangulo(svgH, svgW, x, y, height, width);
 		} else if (strcmp(word, "t") == 0){
 			sscanf(line, "%s %lf %lf %[^\n]", word, &x, &y, text);
 			fprintf(svgMain, "<text x=\"%f\" y=\"%f\" font-family=\"Verdana\" font-size=\"5\">%s</text>\n", x, y, text);
 			svgCmpCirculo(svgH, svgW, x, y, 0.0);
+		} else if (strcmp(word, "q") == 0){
+			sscanf(line, "%s %s %lf %lf %lf %lf", word, cep, &x, &y, &width, &height);
+			aux = (char*)malloc(sizeof(char)*(strlen(cor1) + 1));
+			aux2 = (char*)malloc(sizeof(char)*(strlen(cor2) + 1));
+			aux3 = (char*)malloc(sizeof(char)*(strlen(cep) + 1));
+			strcpy(aux, cor1);
+			strcpy(aux2, cor2);
+			strcpy(aux3, cep);
+			q1 = createQuadra(x, y, width, height, cep);
+			setQuadraCorContorno(q1, cor1);
+			setQuadraCorPreenchimento(q1, cor2);
+			addQuadra(*city, q1);
+			svgCmpRetangulo(svgH, svgW, x, y, height, width);
 		}
+		
 	}
 	funcFree(&line);
 	funcFree(&word);
@@ -303,7 +328,7 @@ char *funcSvgBb(int argc, char **argv, char *suf){
 	return bb;
 }
 
-void leituraQry(int argc, char **argv, double *svgH, double *svgW, FILE *svgQry, Vector vetor){
+void leituraQry(int argc, char **argv, double *svgH, double *svgW, FILE *svgQry, Cidade *city, Vector vetor){
 	FILE *entrada = NULL, *txt = NULL, *svgBb;
 	Item it;
 	int i, j, var, tipo1, tipo2;

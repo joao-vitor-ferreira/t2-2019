@@ -2,7 +2,6 @@
 #define Vector_H
 
 	typedef void *Vector;
-	typedef void *Posic;
 	typedef void *Item;
 
 Vector createVector(int n);

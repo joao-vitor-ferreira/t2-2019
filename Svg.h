@@ -1,6 +1,7 @@
 #ifndef SGV_H
 #define SGV_H
 
+#include <stdio.h>
 #include "Circulo.h"
 #include "Retangulo.h"
 

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Retangulo.h"
+#include "Cidade.h"
 #include "Circulo.h"
 #include "Comandos.h"
 #include "CalculoCirculoRetangulo.h"
@@ -8,9 +9,10 @@
 
 int main (int argc, char **argv){
 	FILE *svgMain, *svgQry;
-	Retangulo r;
+	Cidade *city;
 	Item obj;
 	Circulo c;
+	Retangulo r;
 	Vector vetor;
 	int a, b;
 	double  svgW, svgH;
@@ -32,7 +34,7 @@ int main (int argc, char **argv){
 	svgMain = fopen(str, "w");
 	funcFree(&str);
 	fprintf(svgMain, "                                                                  ");
-	leituraGeo(argc, argv, &svgH, &svgW, svgMain, &vetor);
+	leituraGeo(argc, argv, &svgH, &svgW, svgMain, city, &vetor);
 	funcFree(&str);
 	printSvgVector(vetor, svgMain);
 	fprintf(svgMain, "</svg>");
@@ -47,7 +49,7 @@ int main (int argc, char **argv){
 		svgQry = fopen(str, "w");
 		funcFree(&str);
 		fprintf(svgQry, "                                                                  ");
-		leituraQry(argc, argv, &svgH, &svgW, svgQry, vetor);
+		leituraQry(argc, argv, &svgH, &svgW, svgQry, city, vetor);
 		printSvgVector(vetor, svgQry);
 		fprintf(svgQry, "</svg>");
 		rewind(svgQry);
