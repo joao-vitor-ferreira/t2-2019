@@ -9,14 +9,16 @@ typedef struct{
 	char *id;
 	char *corPreenchimento;
 	char *corContorno;
+	double especura_borda;
 }hidrante;
 
-Hidrante createHidrante(double x, double y, char *id){
+Hidrante createHidrante(double x, double y, char *id, double sw){
 	hidrante *newHidrante;
 	newHidrante = (hidrante*)malloc(sizeof(hidrante));
 	newHidrante->x = x;
 	newHidrante->y = y;
 	newHidrante->id = id;
+	newHidrante->especura_borda = sw;
 	newHidrante->corContorno = NULL;
 	newHidrante->corPreenchimento = NULL;
 	return (Hidrante)newHidrante;
@@ -25,6 +27,11 @@ Hidrante createHidrante(double x, double y, char *id){
 double getHidranteX(Hidrante h){
 	hidrante *newHidrante = (hidrante*)h;
 	return newHidrante->x;
+}
+
+double getHidranteSW(Hidrante h){
+	hidrante *newHidrante = (hidrante*)h;
+	return newHidrante->especura_borda;
 }
 
 double getHidranteY(Hidrante h){

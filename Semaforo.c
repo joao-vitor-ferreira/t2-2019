@@ -10,17 +10,24 @@ typedef struct{
 	char *id;
 	char *corPreenchimento;
 	char *corContorno;
+	double especura_borda;
 }semaforo;
 
-Semaforo createSemaforo(double x, double y, char *id){
+Semaforo createSemaforo(double x, double y, char *id, double sw){
 	semaforo *newSemaforo;
 	newSemaforo = (semaforo*)malloc(sizeof(semaforo));
 	newSemaforo->x = x;
 	newSemaforo->y = y;
 	newSemaforo->id = id;
+	newSemaforo->especura_borda = sw;
 	newSemaforo->corContorno = NULL;
 	newSemaforo->corPreenchimento = NULL;
 	return (Semaforo)newSemaforo;
+}
+
+double getSemaforoSW(Semaforo h){
+	semaforo *newSemaforo = (semaforo*)h;
+	return newSemaforo->especura_borda;
 }
 
 double getSemaforoX(Semaforo h){

@@ -9,19 +9,26 @@ typedef struct {
 	double y;
 	char *corPreenchimento;	
 	char *corContorno;
+	double especura_borda;
 }retangulo;
 
-Retangulo creatRetangulo(int id, double width, double height, double x, double y, char *corPreenchimento, char *corContorno){
+Retangulo creatRetangulo(int id, double width, double height, double x, double y, char *corPreenchimento, char *corContorno, double sw){
 	retangulo *newretangulo;
 	newretangulo = (retangulo*)malloc(sizeof(retangulo));
 	newretangulo->id = id;
 	newretangulo->w = width;
 	newretangulo->h = height;
+	newretangulo->especura_borda = sw;
 	newretangulo->x = x;
 	newretangulo->y = y;
 	newretangulo->corPreenchimento = corPreenchimento;
 	newretangulo->corContorno = corContorno;
 	return (Retangulo) newretangulo;
+}
+
+double getRetanguloSW(Retangulo r){
+	retangulo *newretangulo = (retangulo*)r;
+	return newretangulo->especura_borda;
 }
 
 int getRetanguloId(Retangulo r){

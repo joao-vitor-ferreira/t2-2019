@@ -1,7 +1,16 @@
-#include "Cidade.h"
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include "Cidade.h"
+#include "Lista.h"
+#include "Quadra.h"
+#include "Semaforo.h"
+#include "Torre.h"
+#include "Hidrante.h"
+#include "Retangulo.h"
+#include "Circulo.h"
+#include "Svg.h"
+
 
 typedef struct {
     Lista lQua;
@@ -20,12 +29,30 @@ typedef struct {
 
 Cidade createCidade(int i, int nq, int nh, int ns, int nt){
     cidade *city;
+    city = (cidade*)malloc(sizeof(cidade));
     city->lQua = createList(nq);
     city->lSem = createList(ns);
     city->lTor = createList(nt);
     city->lHid = createList(nh);
     city->lFor = createList(i);
     return city;
+}
+
+Lista getList(Cidade city, char t){
+    cidade *newCity = (cidade*)city;
+    if (t == 'q'){
+        return newCity->lQua;
+    } else if (t == 't'){
+        return newCity->lTor;
+    } else if (t == 'h'){
+        return newCity->lHid;
+    } else if (t == 's'){
+        return newCity->lSem;
+    } else if (t == 'f'){
+        return newCity->lFor;
+    }
+    printf("Paramento \"t\" incorreto\n");
+    return NULL;
 }
 
 void addForma(Cidade city, Item info, int type){
@@ -37,8 +64,9 @@ void addForma(Cidade city, Item info, int type){
 }
 
 void addQuadra(Cidade city, Quadra q){
+    Posic p;
     cidade *newCity = (cidade*)city;
-    insertList(newCity->lQua, q);
+    p = insertList(newCity->lQua, q);
 }
 
 void addSemaforo(Cidade city, Semaforo s){
@@ -61,6 +89,26 @@ Item getObjForma(Cidade city, Posic p){
     forms *forma = getObjList(newCity->lFor, p);
     return forma->thing;
 }
+;
+Item getObjQuadra(Cidade city, Posic p){
+    cidade *newCity = (cidade*)city;
+    return getObjList(newCity->lQua, p);
+}
+
+Item getObjHidrante(Cidade city, Posic p){
+    cidade *newCity = (cidade*)city;
+    return getObjList(newCity->lHid, p);
+}
+
+Item getObjSemaforo(Cidade city, Posic p){
+    cidade *newCity = (cidade*)city;
+    return getObjList(newCity->lSem, p);
+}
+
+Item getObjTorre(Cidade city, Posic p){
+    cidade *newCity = (cidade*)city;
+    return getObjList(newCity->lTor, p);
+}
 
 Posic searchForma(Cidade city, int id, int *type){
     cidade *newCity = (cidade*)city;
@@ -68,22 +116,23 @@ Posic searchForma(Cidade city, int id, int *type){
     Retangulo r1;
     forms *forma;
     Posic p1;
-    for (p1 = getFirst(newCity->lFor); p1 > 0; p1 = getNext(newCity->lFor, p1)){
+    for (p1 = getFirst(newCity->lFor); p1 >= 0; p1 = getNext(newCity->lFor, p1)){
         forma = getObjList(newCity->lFor, p1);
         if (forma->type == 0){
             c1 = forma->thing;
-            if (getCirculoId(c1) == 0){
+            if (getCirculoId(c1) == id){
                 *type = forma->type;
                 return p1;
             } 
         } else{
             r1 = forma->thing;
-            if (getRetanguloId(r1) == 0){
+            if (getRetanguloId(r1) == id){
                 *type = forma->type;
                 return p1;
             }
         }
     }
+    *type = -1;
     return -1;
 }
 
@@ -91,7 +140,8 @@ Posic searchQuadra(Cidade city, char *cep){
     cidade *newCity = (cidade*)city;
     Quadra q1;
     Posic p1;
-    for (p1 = getFirst(newCity->lQua); p1 > 0; p1 = getNext(newCity->lQua, p1)){
+    for (p1 = getFirst(newCity->lQua); p1 >= 0; p1 = getNext(newCity->lQua, p1)){
+        q1 = getObjList(newCity->lQua, p1);
         if (strcmp(getQuadraCep(q1), cep) == 0){
             return p1;
         }
@@ -103,7 +153,8 @@ Posic searchSemaforo(Cidade city, char *id){
     cidade *newCity = (cidade*)city;
     Semaforo s1;
     Posic p1;
-    for (p1 = getFirst(newCity->lSem); p1 > 0; p1 = getNext(newCity->lSem, p1)){
+    for (p1 = getFirst(newCity->lSem); p1 >= 0; p1 = getNext(newCity->lSem, p1)){
+        s1 = getObjList(newCity->lSem, p1);
         if (strcmp(getSemaforoId(s1), id) == 0){
             return p1;
         }
@@ -115,7 +166,8 @@ Posic searchTorre(Cidade city, char *id){
     cidade *newCity = (cidade*)city;
     Torre t1;
     Posic p1;
-    for (p1 = getFirst(newCity->lTor); p1 > 0; p1 = getNext(newCity->lTor, p1)){
+    for (p1 = getFirst(newCity->lTor); p1 >= 0; p1 = getNext(newCity->lTor, p1)){
+        t1 = getObjList(newCity->lTor, p1);
         if (strcmp(getTorreId(t1), id) == 0){
             return p1;
         }
@@ -127,7 +179,8 @@ Posic searchHidrante(Cidade city, char *id){
     cidade *newCity = (cidade*)city;
     Hidrante h1;
     Posic p1;
-    for (p1 = getFirst(newCity->lHid); p1 > 0; p1 = getNext(newCity->lHid, p1)){
+    for (p1 = getFirst(newCity->lHid); p1 >= 0; p1 = getNext(newCity->lHid, p1)){
+        h1 = getObjList(newCity->lQua, p1);
         if (strcmp(getHidranteId(h1), id) == 0){
             return p1;
         }
@@ -181,7 +234,7 @@ void removeTorre(Cidade city, Posic p){
         free(getTorreCorPreenchimento(t1));
     if (getTorreId(t1) != NULL)
         free(getTorreId(t1));
-        free(t1);
+    free(t1);
     removeList(newCity->lTor, p);
 }
 
@@ -209,4 +262,49 @@ void removeHidrante(Cidade city, Posic p){
         free(getHidranteId(h1));
     free(h1);
     removeList(newCity->lHid, p);
+}
+
+void printSvgCidade(Cidade city, FILE *svg){
+    cidade *newCity = (cidade*)city;
+    forms *forma;
+    Posic p1, type;
+    printSvgList(newCity->lHid, svg, printSvgHidrante);
+    printSvgList(newCity->lQua, svg, printSvgQuadra);
+    printSvgList(newCity->lSem, svg, printSvgSemaforo);
+    printSvgList(newCity->lTor, svg, printSvgTorre);
+    for(p1 = getFirst(newCity->lFor); p1 >= 0; p1 = getNext(newCity->lFor, p1)){
+        forma = getObjList(newCity->lFor, p1);
+        if (forma->type == 0)
+            printSvgCirculo(&svg, forma->thing);
+        else
+            printSvgRetangulo(&svg, forma->thing);
+    }
+}
+
+void a(Lista list, Function f, int forma, FILE *arq){
+    int position = getFirst(list);
+    forms *cor; // circulo ou retangulo
+    for (;position < 0; position = getNext(list, position)){
+        if (forma){
+            cor = (forms*)getObjList(list, position);
+            f(list, cor->thing, arq);   
+        } else{
+            f(list, getObjList(list, position), arq);
+        }
+    }
+}
+
+void throughCity (Cidade city, Function f, char t, FILE *arq){
+    cidade *newCity = (cidade*)city;
+    if (t == 'q'){
+        a(newCity->lQua, f, 0, arq);
+    } else if (t == 't'){
+        a(newCity->lTor, f, 0, arq);
+    } else if (t == 'h'){
+        a(newCity->lHid, f, 0, arq);
+    } else if (t == 's'){
+        a(newCity->lSem, f, 0, arq);
+    } else if (t == 'f'){
+        a(newCity->lFor, f, 1, arq);
+    }
 }

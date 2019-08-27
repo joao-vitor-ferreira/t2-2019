@@ -8,16 +8,19 @@
 	*/
 
 	typedef void *Lista;
+	
 	typedef int Posic;
 	/*Refere-se ao indicar da posição de um objeto na lista */
 	typedef void *Item;
 	/*Abstração de quaquer objeto a ser armazenado */
-	typedef void (*RemoveLeak)(Item);
+	typedef void (*svgColor)(FILE **, void *);
 
 	Lista createList(int size);
 	/* Cria uma instancia de Lista com nx elementos*/
 	int lengthList(Lista L);
 	/* Informa o tamanho da Lista*/
+	int qtdList(Lista L);
+	/* Informa quantos elementos existem na lista*/
 	Posic insertList(Lista L, Item info);
 	/* Adiciona uma informação)(Elemento) na Lista, porém a se a lista estiver cheia ele retorna null*/
 	void removeList(Lista L, Posic p);
@@ -34,5 +37,7 @@
 	/*Dado uma lista, esta função devolve o Posic anterior ao Posic p */
 	Item getObjList(Lista L, Posic p);
 	/* Dado uma lista, esta função retorna o objeto referente ao Posic p*/
+	void printSvgList(Lista L, FILE *svg, svgColor printElement);
+	/* imprime no arquivo svg o determinado objeto da lista*/
 #endif
 

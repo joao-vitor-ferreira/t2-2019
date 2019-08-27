@@ -3,16 +3,17 @@
 #include "Lista.h"
 
 typedef struct{
-	int prev;
-	int next;
+	Posic prev;
+	Posic next;
 	void *thing;
 }array;
 
 typedef struct{
-	int size; // capacidade do vetor
-	int fist; // primeira posição da lista
-	int last; // último posição da lista
-	int fep; // primeira posição vazia
+	int size; // capacidade da lista
+	Posic fist; // primeira posição da lista
+	Posic last; // último posição da lista
+	Posic fep; // primeira posição vazia
+	int qtd_elementos;
 	array *vet;
 }head;
 
@@ -20,6 +21,7 @@ Lista createList(int size){
 	head *cabeca;
 	cabeca = (head*)malloc(sizeof(head));
 	cabeca->size = size;
+	cabeca->qtd_elementos = 0;
 	cabeca->fep = 0;
 	cabeca->fist = -1;
 	cabeca->last = -1;
@@ -41,37 +43,46 @@ int lengthList(Lista L){
 	return newHead->size;
 }
 
+int qtdList(Lista L){
+	head *newHead = (head*)L;
+	return newHead->qtd_elementos;
+}
+
 Posic insertList(Lista L, Item info){
 	head *newHead = (head*)L;
+	Posic p;
 	if (newHead->fep >= 0){
 		newHead->vet[newHead->fep].thing = info;
 		if (newHead->fist != -1)
 			newHead->vet[newHead->vet[newHead->fep].prev].next = newHead->fep;
-		newHead->vet[newHead->fep].next = -1;
+		else
+			newHead->fist = newHead->fep;
 		newHead->last = newHead->fep;
 		newHead->fep = newHead->vet[newHead->fep].next;
+		newHead->vet[newHead->last].next = -1;
+		newHead->qtd_elementos++;
 	} else{
 		printf("Lista cheia\n");
-	}
-	newHead->vet[newHead->size - 1].next = -2;
-	return newHead->vet[newHead->fep].prev;
+		return -1;
+	}	
+	return (newHead->vet[newHead->fep]).prev;
 }
 
 void removeList(Lista L, Posic p){
 	head *newHead = (head*)L;
+	// fep == -1
 	if(newHead->fist == p){
 		newHead->fist = newHead->vet[newHead->fist].next;
-		newHead->vet[newHead->vet[newHead->fist].next].prev = -1;
-		newHead->vet[newHead->vet[newHead->fep].prev].next = p;
+		newHead->vet[newHead->fist].prev = -1;
 		newHead->vet[p].next = newHead->fep;
-		newHead->vet[p].prev = newHead->vet[newHead->fep].prev;
+		newHead->vet[p].prev = newHead->last;
 		newHead->vet[newHead->fep].prev = p;
 		newHead->fep = p;
 	} else if (newHead->last == p){
 		newHead->vet[newHead->vet[p].prev].next = -1;
 		newHead->vet[p].next = newHead->fep;
 		newHead->fep = p;
-		newHead->last = newHead->vet[newHead->fep].prev;
+		newHead->last = newHead->vet[p].prev;
 	} else {
 		newHead->vet[newHead->vet[p].prev].next = newHead->vet[p].next;
 		newHead->vet[newHead->vet[p].next].prev = newHead->vet[p].prev;
@@ -80,6 +91,7 @@ void removeList(Lista L, Posic p){
 		newHead->vet[p].prev = newHead->last;
 		newHead->fep = p;
 	}
+	newHead->qtd_elementos--;
 }
 
 Posic getFirst(Lista L){
@@ -113,4 +125,14 @@ void deleteList(Lista L){
 		free(newHead->vet);
 	if (newHead != NULL)
 		free(newHead);
+}
+
+void printSvgList(Lista L, FILE *svg, svgColor printElement){
+	head *newHead = (head*)L;
+	Posic p1, p2;
+	int i;
+	p1 = getFirst(L);
+	for (p1 = getFirst(L); p1 >= 0; p1 = getNext(L, p1)){
+		printElement(&svg, getObjList(L, p1));
+	}
 }

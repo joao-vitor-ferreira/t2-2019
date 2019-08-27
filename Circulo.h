@@ -3,8 +3,9 @@
 
 	typedef void *Circulo;
 
-Circulo creatCirculo(int id, double raio, double x, double y, char *corPreenchimento, char *corContorno);
+Circulo creatCirculo(int id, double raio, double x, double y, char *corPreenchimento, char *corContorno, double sw);
 double getCirculoX(Circulo c);
+double getCirculoSW(Circulo c);
 double getCirculoY(Circulo c);
 double getCirculoRaio(Circulo c);
 int getCirculoId(Circulo c);

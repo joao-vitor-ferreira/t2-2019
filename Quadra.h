@@ -8,13 +8,14 @@
 	typedef void *Quadra;
 /* Quadra é uma estrutura composta pelo ponto ancora, altura e largura, cores de preenchimento e contorno e seu identificador, seu cep, na qual será disposta num plano que chamaremos de cidade*/
 
-Quadra createQuadra(double x, double y, double width, double height, char *cep);
+Quadra createQuadra(double x, double y, double width, double height, char *cep, double sw);
 char *getQuadraCorContorno(Quadra q);
 char *getQuadraCorPreenchimento(Quadra q);
 void setQuadraCorPreenchimento(Quadra q, char *cor);
 void setQuadraCorContorno(Quadra q, char *cor);
 char *getQuadraCep(Quadra q);
 double getQuadraX(Quadra q);
+double getQuadraSW(Quadra q);
 double getQuadraY(Quadra q);
 double getQuadraWidth(Quadra q);
 double getQuadraHeight(Quadra q);

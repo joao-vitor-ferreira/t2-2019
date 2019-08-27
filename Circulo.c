@@ -9,9 +9,10 @@ typedef struct {
 	double x;
 	double y;
 	double raio;
+	double especura_borda;
 } circulo;
 
-Circulo creatCirculo(int id, double raio, double x, double y, char *corPreenchimento, char *corContorno){
+Circulo creatCirculo(int id, double raio, double x, double y, char *corPreenchimento, char *corContorno, double sw){
 	circulo *newCirculo;
 	newCirculo = (circulo*)malloc(sizeof(circulo));
 	newCirculo->id = id;
@@ -20,7 +21,13 @@ Circulo creatCirculo(int id, double raio, double x, double y, char *corPreenchim
 	newCirculo->x = x;
 	newCirculo->y = y;
 	newCirculo->raio = raio;
+	newCirculo->especura_borda = sw;
 	return (Circulo) newCirculo;
+}
+
+double getCirculoSW(Circulo c){
+	circulo *newCirculo = (circulo*)c;
+	return newCirculo->especura_borda;
 }
 
 double getCirculoX(Circulo c){

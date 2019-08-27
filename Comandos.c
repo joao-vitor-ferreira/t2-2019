@@ -77,7 +77,7 @@ void printSvgVector(Vector vetor, FILE *svg){
 	Retangulo r1 = NULL;
 	for (i = 0; i < (getSizeVector(vetor)); i++){
 		n = getTypeObj(vetor, i);
-		if (n == 0){
+		if (n == 0){	
 			c1 = getObjVector(vetor, i);
 			printSvgCirculo(&svg, c1);
 		} else if (n == 1){
@@ -220,8 +220,8 @@ void svgCmpRetangulo(double *svgH, double *svgW, double x, double y, double heig
 		*svgH = y + height;
 }
 
-void leituraGeo(int argc, char **argv, double *svgH, double *svgW, FILE *svgMain, Cidade *city, Vector *vetor){
-	int NQ = 1000, NS = 1000, NH = 1000, NR = 1000, NF = 1000, i, *type;
+void leituraGeo(int argc, char **argv, double *svgH, double *svgW, FILE *svgMain, Cidade *city){
+	int NQ = 1000, NS = 1000, NH = 1000, NR = 1000, NF = 1000, i, type;
 	FILE *entrada = NULL;
 	Circulo c1 = NULL;
 	Posic p1;
@@ -231,11 +231,19 @@ void leituraGeo(int argc, char **argv, double *svgH, double *svgW, FILE *svgMain
 	Torre t1;
 	Hidrante h1;
 	char *line = NULL, *word = NULL, *cor1 = NULL, *cor2 = NULL, 
-	*aux = NULL, *aux2 = NULL, *aux3 = NULL, *text = NULL, *cep;
-	double raio, x, y, height, width;
+	*aux = NULL, *aux2 = NULL, *aux3 = NULL, *text = NULL, *cep, *cqf, *cqs, *chf, *chs, *crf, *crs, *csf, *css;
+	double raio, x, y, height, width, sw, swc, swr, swq, swt, sws, swh;
 	line = (char*)malloc(sizeof(char)*200);
 	word =(char*)malloc(sizeof(char)*30);
 	cor1 = (char*)malloc(sizeof(char)*20);
+	cqf = (char*)malloc(sizeof(char)*20);
+	cqs = (char*)malloc(sizeof(char)*20);
+	chs = (char*)malloc(sizeof(char)*20);
+	chf = (char*)malloc(sizeof(char)*20);
+	crf = (char*)malloc(sizeof(char)*20);
+	crs = (char*)malloc(sizeof(char)*20);
+	css = (char*)malloc(sizeof(char)*20);
+	csf = (char*)malloc(sizeof(char)*20);
 	cep = (char*)malloc(sizeof(char)*20);
 	cor2 = (char*)malloc(sizeof(char)*20);
 	text = (char*)malloc(sizeof(char)*200);
@@ -245,28 +253,46 @@ void leituraGeo(int argc, char **argv, double *svgH, double *svgW, FILE *svgMain
 	funcFree(&aux);
 	funcFree(&aux2);
 
-	//DEFININDO NX
-
-	fscanf(entrada, "%[^\n]\n", line);
-	sscanf(line, "%s", word);
-	if (strcmp(word, "nx") == 0){
-		sscanf("%s %d %d %d %d %d", word, NF, NQ, NH, NS, NR);
-	}
-	*city = createCidade(NF, NQ, NH, NS, NR);
-	rewind (entrada);
-
 	while(!feof(entrada)){
 		fscanf(entrada, "%[^\n]\n", line);
 		sscanf(line, "%s", word);
-		if (strcmp(word, "c") == 0){
+		if (strcmp(word, "sw") == 0){
+			sscanf(line, "%s %lf %lf", word, &swc, &swr);
+		}else if (strcmp(word, "nx") == 0){
+			sscanf(line, "%s %d %d %d %d %d", word, &NF, &NQ, &NH, &NS, &NR);
+			*city = createCidade(NF, NQ, NH, NS, NR);
+		}else if (strcmp(word, "cq") == 0){
+			sscanf(line, "%s %s %s %lf", word, cor1, cor2, &swq);
+			cqf = (char*)malloc(sizeof(char)*(strlen(cor1) + 1));
+			cqs = (char*)malloc(sizeof(char)*(strlen(cor2) + 1));
+			strcpy(cqf, cor1);
+			strcpy(cqs, cor2);
+		}else if (strcmp(word, "cs") == 0){
+			sscanf(line, "%s %s %s %lf", word, cor1, cor2, &sws);
+			csf = (char*)malloc(sizeof(char)*(strlen(cor1) + 1));
+			css = (char*)malloc(sizeof(char)*(strlen(cor2) + 1));
+			strcpy(csf, cor1);
+			strcpy(css, cor2);
+		}else if (strcmp(word, "ch") == 0){
+			sscanf(line, "%s %s %s %lf", word, cor1, cor2, &swh);
+			chf = (char*)malloc(sizeof(char)*(strlen(cor1) + 1));
+			chs = (char*)malloc(sizeof(char)*(strlen(cor2) + 1));
+			strcpy(chf, cor1);
+			strcpy(chs, cor2);
+		}else if (strcmp(word, "cr") == 0){
+			sscanf(line, "%s %s %s %lf", word, cor1, cor2, &swt);
+			crf = (char*)malloc(sizeof(char)*(strlen(cor1) + 1));
+			crs = (char*)malloc(sizeof(char)*(strlen(cor2) + 1));
+			strcpy(crf, cor1);
+			strcpy(crs, cor2);
+		}else if (strcmp(word, "c") == 0){
 			sscanf(line, "%s %d %lf %lf %lf %s %s", word, &i, &raio, &x, &y, cor1, cor2);
 			aux = (char*)malloc(sizeof(char)*(strlen(cor1) + 1));
 			aux2 = (char*)malloc(sizeof(char)*(strlen(cor2) + 1));
 			strcpy(aux, cor1);
 			strcpy(aux2, cor2);
-			c1 = creatCirculo(i, raio, x, y, aux2, aux);
+			c1 = creatCirculo(i, raio, x, y, aux2, aux, swc);
 			addForma(*city, c1, 0);
-			p1 = searchForma(*city, i, type);
 			svgCmpCirculo(svgH, svgW, x, y, raio);
 		}else if (strcmp(word, "r") == 0){
 			sscanf(line, "%s %d %lf %lf %lf %lf %s %s", word, &i, &width, &height, &x, &y, cor1, cor2);
@@ -274,9 +300,8 @@ void leituraGeo(int argc, char **argv, double *svgH, double *svgW, FILE *svgMain
 			aux2 = (char*)malloc(sizeof(char)*(strlen(cor2) + 1));
 			strcpy(aux, cor1);
 			strcpy(aux2, cor2);
-			r1 = creatRetangulo(i, width, height, x, y, aux2, aux);
+			r1 = creatRetangulo(i, width, height, x, y, aux2, aux, swr);
 			addForma(*city, r1, 1);
-			p1 = searchForma(*city, i, type);
 			svgCmpRetangulo(svgH, svgW, x, y, height, width);
 		} else if (strcmp(word, "t") == 0){
 			sscanf(line, "%s %lf %lf %[^\n]", word, &x, &y, text);
@@ -284,20 +309,68 @@ void leituraGeo(int argc, char **argv, double *svgH, double *svgW, FILE *svgMain
 			svgCmpCirculo(svgH, svgW, x, y, 0.0);
 		} else if (strcmp(word, "q") == 0){
 			sscanf(line, "%s %s %lf %lf %lf %lf", word, cep, &x, &y, &width, &height);
-			aux = (char*)malloc(sizeof(char)*(strlen(cor1) + 1));
-			aux2 = (char*)malloc(sizeof(char)*(strlen(cor2) + 1));
+			aux = (char*)malloc(sizeof(char)*(strlen(cqf) + 1));
+			aux2 = (char*)malloc(sizeof(char)*(strlen(cqs) + 1));
 			aux3 = (char*)malloc(sizeof(char)*(strlen(cep) + 1));
-			strcpy(aux, cor1);
-			strcpy(aux2, cor2);
+			strcpy(aux, cqf);
+			strcpy(aux2, cqs);
 			strcpy(aux3, cep);
-			q1 = createQuadra(x, y, width, height, cep);
-			setQuadraCorContorno(q1, cor1);
-			setQuadraCorPreenchimento(q1, cor2);
+			q1 = createQuadra(x, y, width, height, aux3, swq);
+			setQuadraCorContorno(q1, aux2);
+			setQuadraCorPreenchimento(q1, aux);
 			addQuadra(*city, q1);
 			svgCmpRetangulo(svgH, svgW, x, y, height, width);
+		} else if (strcmp(word, "rb") == 0){
+			sscanf(line, "%s %s %lf %lf", word, cep, &x, &y);
+			aux = (char*)malloc(sizeof(char)*(strlen(crf) + 1));
+			aux2 = (char*)malloc(sizeof(char)*(strlen(crs) + 1));
+			aux3 = (char*)malloc(sizeof(char)*(strlen(cep) + 1));
+			strcpy(aux, crf);
+			strcpy(aux2, crs);
+			strcpy(aux3, cep);
+			t1 = createTorre(x, y, aux3, swt);
+			setTorreCorContorno(t1, aux2);
+			setTorreCorPreenchimento(t1, aux);
+			addTorre(*city, t1);
+			svgCmpCirculo(svgH, svgW, x, y, swt);
+		} else if (strcmp(word, "s") == 0){
+			sscanf(line, "%s %s %lf %lf", word, cep, &x, &y);
+			aux = (char*)malloc(sizeof(char)*(strlen(csf) + 1));
+			aux2 = (char*)malloc(sizeof(char)*(strlen(css) + 1));
+			aux3 = (char*)malloc(sizeof(char)*(strlen(cep) + 1));
+			strcpy(aux, csf);
+			strcpy(aux2, css);
+			strcpy(aux3, cep);
+			s1 = createSemaforo(x, y, aux3, sws);
+			setSemaforoCorContorno(s1, aux2);
+			setSemaforoCorPreenchimento(s1, aux);
+			addSemaforo(*city, s1);
+			svgCmpCirculo(svgH, svgW, x, y, sws);
+		} else if (strcmp(word , "h")==0){
+			sscanf(line, "%s %s %lf %lf", word, cep, &x, &y);
+			aux = (char*)malloc(sizeof(char)*(strlen(chf) + 1));
+			aux2 = (char*)malloc(sizeof(char)*(strlen(chs) + 1));
+			aux3 = (char*)malloc(sizeof(char)*(strlen(cep) + 1));
+			strcpy(aux, chf);
+			strcpy(aux2, chs);
+			strcpy(aux3, cep);
+			h1 = createHidrante(x, y, aux3, swt);
+			setHidranteCorContorno(h1, aux2);
+			setHidranteCorPreenchimento(h1, aux);
+			addHidrante(*city, h1);
+			svgCmpCirculo(svgH, svgW, x, y, swh);
 		}
 		
 	}
+	funcFree(&cep);
+	funcFree(&cqf);
+	funcFree(&cqs);
+	funcFree(&chf);
+	funcFree(&chs);
+	funcFree(&crf);
+	funcFree(&crs);
+	funcFree(&csf);
+	funcFree(&css);
 	funcFree(&line);
 	funcFree(&word);
 	funcFree(&cor1);
@@ -328,12 +401,17 @@ char *funcSvgBb(int argc, char **argv, char *suf){
 	return bb;
 }
 
+void bbRet(Lista list, Retangulo r, FILE *arq){
+	fprintf(arq, "<ellipse cx=\"%f\" cy=\"%f\" rx=\"%f\" ry=\"%f\" style=\"fill:%s\" />", getRetanguloX(r) + getRetanguloWidth(r)/2, getRetanguloY(r1) + getRetanguloHeight(r1)/2, getRetanguloWidth(r1)/2, getRetanguloHeight(r)/2, cor);
+}
+
 void leituraQry(int argc, char **argv, double *svgH, double *svgW, FILE *svgQry, Cidade *city, Vector vetor){
 	FILE *entrada = NULL, *txt = NULL, *svgBb;
 	Item it;
 	int i, j, var, tipo1, tipo2;
 	Circulo c1 = NULL, c2 = NULL;
 	Retangulo r1 = NULL, r2 = NULL;
+	Posic p1, p2;	
 	char *line = NULL, *word = NULL, *cor = NULL, *suf = NULL, 
 	*aux = NULL, *aux2 = NULL, *aux3 = NULL, *text = NULL;
 	double raio, x, y, height, width;
@@ -352,16 +430,17 @@ void leituraQry(int argc, char **argv, double *svgH, double *svgW, FILE *svgQry,
 			break;
 		sscanf(line, "%s", word);
 		if (strcmp(word, "i?") == 0){
+			var = 0;
 			sscanf(line, "%s %d %lf %lf", word, &j, &x, &y);
-			i = getTypeObj(vetor, j);
+			p1 = searchForma(*city, j, &i);
 			if (i == 1){
-				r1 = (Retangulo)getObjVector(vetor, j);
+				r1 = (Retangulo)getObjForma(*city, p1);
 				if (r1 != NULL)
 					var = pontoInternoRetangulo(r1, x, y);
 				else
 					var = -1;
-			} else{
-				c1 = getObjVector(vetor, j);
+			} else if(i == 0){
+				c1 = (Circulo)getObjForma(*city, p1);
 				if (c1 != NULL)
 					var = pontoInternoCirculo(c1, x, y);
 				else
@@ -385,48 +464,47 @@ void leituraQry(int argc, char **argv, double *svgH, double *svgW, FILE *svgQry,
 			}
 		} else if (strcmp(word, "o?") == 0){
 			double xma, yma, xme, yme;
+			var = 0;
 			xma = 0.0;
 			yma = 0.0;
 			xme = -1.0;
 			yme = -1.0;
 			sscanf(line, "%s %d %d", word, &i, &j);
-			it = getObjVector(vetor, i);
-			if (it == NULL){
+			p1 = searchForma(*city, i, &tipo1);
+			if (p1 < 0){
 				printf("Não achei %d", i);
 				break;
 			}
-			tipo1 = getTypeObj(vetor, i);
-			it = getObjVector(vetor, j);
-			if (it == NULL){
+			p2 = searchForma(*city, j, &tipo2);
+			if (p2 < 0){
 				printf("Não achei %d", j);
 				break;
 			}
-			tipo2 = getTypeObj(vetor, j);
 			if (tipo1 == 1){
 				if (tipo2 == 1){
-					r1 = getObjVector(vetor, i);
-					r2 = getObjVector(vetor, j);
+					r1 = getObjForma(*city, p1);
+					r2 = getObjForma(*city, p2);
 					var = sobreposicaoRetanguloRetangulo(r1, r2);
 					cmpRet(r1, &xma, &xme, &yma, &yme);
 					cmpRet(r2, &xma, &xme, &yma, &yme);
 				} else{
-					r1 = getObjVector(vetor, i);
-					c1 = getObjVector(vetor, j);
+					r1 = getObjForma(*city, p1);
+					c1 = getObjForma(*city, p2);
 					var = sobreposicaoCirculoRetangulo(c1, r1);
 					cmpRet(r1, &xma, &xme, &yma, &yme);
 					cmpCir(c1, &xma, &xme, &yma, &yme);
 				}
 			} else{
 				if (tipo2 == 1){
-					c1 = getObjVector(vetor, i);
-					r1 = getObjVector(vetor, j);
+					c1 = getObjForma(*city, p1);
+					r1 = getObjForma(*city, p2);
 					var = sobreposicaoCirculoRetangulo(c1, r1);
 					cmpRet(r1, &xma, &xme, &yma, &yme);
 					cmpCir(c1, &xma, &xme, &yma, &yme);
 					
 				} else{
-					c1 = getObjVector(vetor, i);
-					c2 = getObjVector(vetor, j);
+					c1 = getObjForma(*city, p1);
+					c2 = getObjForma(*city, p2);
 					var  = sobreposicaoCirculoCirculo(c1, c2);
 					cmpCir(c1, &xma, &xme, &yma, &yme);
 					cmpCir(c2, &xma, &xme, &yma, &yme);
@@ -450,18 +528,18 @@ void leituraQry(int argc, char **argv, double *svgH, double *svgW, FILE *svgQry,
 				*svgH = yme + (yma - yme);
 		} else if (strcmp(word, "d?") == 0){
 			sscanf(line, "%s %d %d", word, &i, &j);
-			tipo1 = getTypeObj(vetor, i);
-			tipo2 = getTypeObj(vetor, j);
+			p1 = searchForma(*city, i, &tipo1);
+			p2 = searchForma(*city, j, &tipo2);
 			if (tipo1 == 0){
 				if (tipo2 == 0){
-					c1 = getObjVector(vetor, i);
-					c2 = getObjVector(vetor, j);
+					c1 = getObjForma(*city, p1);
+					c2 = getObjForma(*city, p2);
 					x = distanciaEntrePontos(getCirculoX(c1), getCirculoY(c1), getCirculoX(c2), getCirculoY(c2));
 					fprintf(svgQry, "<line x1=\"%f\" y1=\"%f\" x2=\"%f\" y2=\"%f\" stroke-width=\"2\" stroke=\"brown\" />", getCirculoX(c1), getCirculoY(c1), getCirculoX(c2), getCirculoY(c2));
 					fprintf(svgQry, "<text x=\"%f\" y=\"%f\" font-family=\"Verdana\" font-size=\"5\">%f</text>\n", (getCirculoX(c1) + getCirculoX(c2))/2, (getCirculoY(c1) + getCirculoY(c2))/2, x);
 				}else{
-					c1 = getObjVector(vetor, i);
-					r1 = getObjVector(vetor, j);
+					c1 = getObjForma(*city, p1);
+					r1 = getObjForma(*city, p2);
 					x = distanciaEntrePontos(getCirculoX(c1), getCirculoY(c1), getRetanguloX(r1) + getRetanguloWidth(r1)/2, getRetanguloY(r1) + getRetanguloHeight(r1)/2);
 					fprintf(svgQry, "<line x1=\"%f\" y1=\"%f\" x2=\"%f\" y2=\"%f\" stroke-width=\"2\" stroke=\"brown\" />", getCirculoX(c1), getCirculoY(c1), getRetanguloX(r1) + getRetanguloWidth(r1)/2, getRetanguloY(r1) + getRetanguloHeight(r1)/2);
 					fprintf(svgQry, "<text x=\"%f\" y=\"%f\" font-family=\"Verdana\" font-size=\"5\">%f</text>\n",(getCirculoX(c1) + (getRetanguloX(r1) + getRetanguloWidth(r1)/2))/2, (getCirculoY(c1) + (getRetanguloY(r1) + getRetanguloHeight(r1)/2))/2, x);
@@ -469,14 +547,14 @@ void leituraQry(int argc, char **argv, double *svgH, double *svgW, FILE *svgQry,
 				}
 			} else{
 				if (tipo2==0){
-					r1 = getObjVector(vetor, i);
-					c1 = getObjVector(vetor, j);
+					r1 = getObjForma(*city, p1);
+					c1 = getObjForma(*city, p2);
 					x = distanciaEntrePontos(getCirculoX(c1), getCirculoY(c1), getRetanguloX(r1) - getRetanguloWidth(r1)/2, getRetanguloY(r1) - getRetanguloHeight(r1)/2);
 					fprintf(svgQry, "<line x1=\"%f\" y1=\"%f\" x2=\"%f\" y2=\"%f\" stroke-width=\"2\" stroke=\"brown\" />", getCirculoX(c1), getCirculoY(c1), getRetanguloX(r1) + getRetanguloWidth(r1)/2, getRetanguloY(r1) + getRetanguloHeight(r1)/2);
 					fprintf(svgQry, "<text x=\"%f\" y=\"%f\" font-family=\"Verdana\" font-size=\"5\">%f</text>\n",(getCirculoX(c1) + (getRetanguloX(r1) + getRetanguloWidth(r1)/2))/2, (getCirculoY(c1) + (getRetanguloY(r1) + getRetanguloHeight(r1)/2))/2, x);
 				}else{
-					r1 = getObjVector(vetor, i);
-					r2 = getObjVector(vetor, j);
+					r1 = getObjForma(*city, p1);
+					r2 = getObjForma(*city, p2);
 					x = distanciaEntrePontos(getRetanguloX(r1) - getRetanguloWidth(r1)/2, getRetanguloY(r1) - getRetanguloHeight(r1)/2, getRetanguloX(r2) - getRetanguloWidth(r2)/2, getRetanguloY(r2) - getRetanguloHeight(r2)/2);
 					fprintf(svgQry, "<line x1=\"%f\" y1=\"%f\" x2=\"%f\" y2=\"%f\" stroke-width=\"2\" stroke=\"brown\" />", getRetanguloX(r2) + getRetanguloWidth(r2)/2, getRetanguloY(r2) + getRetanguloHeight(r2)/2, getRetanguloX(r1) + getRetanguloWidth(r1)/2, getRetanguloY(r1) + getRetanguloHeight(r1)/2);
 					fprintf(svgQry, "<text x=\"%f\" y=\"%f\" font-family=\"Verdana\" font-size=\"5\">%f</text>\n",((getRetanguloX(r2) + getRetanguloWidth(r2)/2) + (getRetanguloX(r1) + getRetanguloWidth(r1)/2))/2, ((getRetanguloY(r2) + getRetanguloHeight(r2)/2) + (getRetanguloY(r1) + getRetanguloHeight(r1)/2))/2, x);
@@ -494,7 +572,9 @@ void leituraQry(int argc, char **argv, double *svgH, double *svgW, FILE *svgQry,
 			svgBb = fopen(aux, "w");
 			funcFree(&aux);
 			fprintf(svgBb, "<svg width = \"%f\" height = \"%f\">", *svgW, *svgH);
-			for (i = 0; i<getSizeVector(vetor); i++){
+			Lista list = getList(*city, 'f');
+			int position = 	getFirst(list);
+			for (; position < 0; position = getNext(list,position)){
 				j = getTypeObj(vetor, i);
 				if (j == 0){
 					c1 = getObjVector(vetor, i);

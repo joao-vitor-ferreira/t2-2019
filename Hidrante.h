@@ -6,10 +6,11 @@
 
 	typedef void *Hidrante;
 
-Hidrante createHidrante(double x, double y, char *id);
+Hidrante createHidrante(double x, double y, char *id, double sw);
 double getHidranteX(Hidrante h);
 double getHidranteY(Hidrante h);
 char *getHidranteId(Hidrante h);
+double getHidranteSW(Hidrante h);
 char *getHidranteCorPreenchimento(Hidrante h);
 char *getHidranteCorContorno(Hidrante h);
 void setHidranteCorPreenchimento(Hidrante h, char *cor);

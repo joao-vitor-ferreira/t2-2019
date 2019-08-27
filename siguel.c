@@ -9,7 +9,7 @@
 
 int main (int argc, char **argv){
 	FILE *svgMain, *svgQry;
-	Cidade *city;
+	Cidade city;
 	Item obj;
 	Circulo c;
 	Retangulo r;
@@ -34,9 +34,9 @@ int main (int argc, char **argv){
 	svgMain = fopen(str, "w");
 	funcFree(&str);
 	fprintf(svgMain, "                                                                  ");
-	leituraGeo(argc, argv, &svgH, &svgW, svgMain, city, &vetor);
+	leituraGeo(argc, argv, &svgH, &svgW, svgMain, &city);
+	printSvgCidade(city, svgMain);
 	funcFree(&str);
-	printSvgVector(vetor, svgMain);
 	fprintf(svgMain, "</svg>");
 	rewind(svgMain);
 	svgH += 10.0;
@@ -49,8 +49,8 @@ int main (int argc, char **argv){
 		svgQry = fopen(str, "w");
 		funcFree(&str);
 		fprintf(svgQry, "                                                                  ");
-		leituraQry(argc, argv, &svgH, &svgW, svgQry, city, vetor);
-		printSvgVector(vetor, svgQry);
+		leituraQry(argc, argv, &svgH, &svgW, svgQry, &city, vetor);
+		printSvgCidade(city, svgQry);
 		fprintf(svgQry, "</svg>");
 		rewind(svgQry);
 		svgH += 10.0;
@@ -58,24 +58,5 @@ int main (int argc, char **argv){
 		fprintf(svgQry, "<svg width=\"%f\" height=\"%f\">\n", svgW, svgH);
 		fclose(svgQry);
 	}
-	
-	for (a=0; a<getSizeVector(vetor); a++){
-		obj = getObjVector(vetor, a);
-		if (obj != NULL){
-			b = getTypeObj(vetor, a);
-			if (b == 0){
-				c = getObjVector(vetor, a);
-				if (c != NULL){
-					freeCirculo(c);
-				}
-			} else{
-				r = getObjVector(vetor, a);
-				if (r != NULL){
-					freeRetangulo(r);
-				}
-			}
-		}
-		
-	}
-	freeVector(vetor);
+
 }

@@ -6,7 +6,8 @@
 
 	typedef void *Semaforo;
 
-Semaforo createSemaforo(double x, double y, char *id);
+Semaforo createSemaforo(double x, double y, char *id, double sw);
+double getSemaforoSW(Semaforo s);
 double getSemaforoX(Semaforo h);
 double getSemaforoY(Semaforo h);
 char *getSemaforoId(Semaforo h);

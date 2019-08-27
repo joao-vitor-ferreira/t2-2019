@@ -10,17 +10,24 @@ typedef struct{
 	char *id;
 	char *corPreenchimento;
 	char *corContorno;
+	double especura_borda;
 }torre;
 
-Torre createTorre(double x, double y, char *id){
+Torre createTorre(double x, double y, char *id, double sw){
 	torre *newTorre;
 	newTorre = (torre*)malloc(sizeof(torre));
 	newTorre->x = x;
 	newTorre->y = y;
+	newTorre->especura_borda = sw;
 	newTorre->id = id;
 	newTorre->corContorno = NULL;
 	newTorre->corPreenchimento = NULL;
 	return (Torre)newTorre;
+}
+
+double getTorreSW(Torre t){
+	torre *newTorre = (torre*)t;
+	return newTorre->especura_borda;
 }
 
 double getTorreX(Torre t){

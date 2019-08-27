@@ -6,7 +6,8 @@
 
 	typedef void *Torre;
 
-Torre createTorre(double x, double y, char *id);
+Torre createTorre(double x, double y, char *id, double sw);
+double getTorreSW(Torre t);
 double getTorreX(Torre t);
 double getTorreY(Torre t);
 char *getTorreId(Torre t);

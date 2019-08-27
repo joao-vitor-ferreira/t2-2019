@@ -13,9 +13,10 @@ typedef struct{
 	char *cep;
 	char *corPreenchimento;
 	char *corContorno;
+	double especura_borda;
 } quadra;
 
-Quadra createQuadra(double x, double y, double width, double height, char *cep){
+Quadra createQuadra(double x, double y, double width, double height, char *cep, double sw){
 	quadra *newQuadra;
 	newQuadra = (quadra*)malloc(sizeof(quadra));
 	newQuadra->x = x;
@@ -25,7 +26,13 @@ Quadra createQuadra(double x, double y, double width, double height, char *cep){
 	newQuadra->cep = cep;
 	newQuadra->corContorno = NULL;
 	newQuadra->corPreenchimento = NULL;
+	newQuadra->especura_borda = sw;
 	return (Quadra) newQuadra;
+}
+
+double getQuadraSW(Quadra q){
+	quadra *newQuadra = (quadra*)q;
+	return newQuadra->especura_borda;
 }
 
 char *getQuadraCorContorno(Quadra q){
