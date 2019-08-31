@@ -51,19 +51,23 @@ void file(int count, int *arq, ...)  {
             printf("se fufuf\n");
         }   
     }
+    char letter;
+
     printf("%d\n", va_arg(ap, int));
+    letter = va_arg(ap, int);
+    printf("%c\n", letter);
     va_end(ap);
 }
 
 // Driver code 
 int main() 
 { 
-    char *str = (char*)malloc(sizeof(char)*10);
+    char *str = (char*)malloc(sizeof(char)*10), letter = 'd';
     int count = 5, r = 6, g; 
     printf("Minimum value is %d\n", min( str,"co", "as", "cc", "7c", "10")); 
     FILE *arq, *s;
     arq = fopen("testando.txt", "w");
-    file(1, &g, arq, r);
+    file(1, &g, arq, r, letter);
 
     return 0; 
 } 

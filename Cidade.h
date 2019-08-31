@@ -1,5 +1,6 @@
 #ifndef CIDADE_H
 #define CIDADE_H
+#include <stdarg.h>
 #include "Lista.h"
 #include "Quadra.h"
 #include "Semaforo.h"
@@ -10,7 +11,7 @@
 #include "Svg.h"
 
     typedef void *Cidade;
-    typedef void (*Function)(Lista, void *, FILE *);
+    typedef void (*Function)(void *, ...);
 
 /* Uma cidade é uma estrutura na qual armazena todas as informações, tal como quadras, hidantes, semaforos, radio-bases e outras formas*/
 
@@ -37,7 +38,7 @@ Posic searchHidrante(Cidade city, char *id);
 Posic searchTorre(Cidade city, char *id);
 Posic searchForma(Cidade city, int id, int *type);
 void printSvgCidade(Cidade city, FILE *svg);
-void throughCity (Cidade city, Function f, char t, FILE *arq);
+void throughCity (Cidade city, Function f, ...);
 /* Dado uma cidade esta função percorre-a elemento por elemento e faz a função determinada func, a partir de alguma das listas determinnadas por t */
 
 #endif

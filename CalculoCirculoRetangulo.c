@@ -4,6 +4,8 @@
 #include "Retangulo.h"
 #include "Circulo.h"
 
+/*METRICA L2*/
+
 double distanciaEntrePontos(double xa, double ya, double xb, double yb){
 	double d = sqrt(pow(xa - xb, 2) + pow(ya - yb, 2));
 	return d;
@@ -158,4 +160,16 @@ double dcmCirculoCirculo(Circulo r1, Circulo r2){
 	y1 = getCirculoY(r1);
 	y2 = getCirculoY(r2);
 	return distanciaEntrePontos(x1, y1, x2, y2);
+}
+
+/*METRICA L1*/
+
+double funcAbs(double value){
+	if (value < 0)
+		return value*(-1);
+	return value;
+}
+
+double distPointsL1(double x1, double y1, double x2, double y2){
+	return (funcAbs(x1-x2) + funcAbs(y1-y2));
 }

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
 #include "Cidade.h"
 #include "Lista.h"
 #include "Quadra.h"
@@ -281,30 +282,39 @@ void printSvgCidade(Cidade city, FILE *svg){
     }
 }
 
-void a(Lista list, Function f, int forma, FILE *arq){
+void a(Lista list, Function f, int forma, va_list *ap){
     int position = getFirst(list);
     forms *cor; // circulo ou retangulo
-    for (;position < 0; position = getNext(list, position)){
+    for (;position >= 0; position = getNext(list, position)){
+        printf("FORMA: %d\n", forma);
         if (forma){
             cor = (forms*)getObjList(list, position);
-            f(list, cor->thing, arq);   
+            if(cor->type == 1)
+                f(cor->thing, 1, ap);
+            else
+                f(cor->thing, 0, ap);
         } else{
-            f(list, getObjList(list, position), arq);
+            f(getObjList(list, position), ap);
         }
     }
 }
 
-void throughCity (Cidade city, Function f, char t, FILE *arq){
+void throughCity (Cidade city, Function f, ...){
+    char t;
+    va_list ap;
+    va_start(ap, f);
+    t = va_arg(ap, int);
     cidade *newCity = (cidade*)city;
     if (t == 'q'){
-        a(newCity->lQua, f, 0, arq);
+        a(newCity->lQua, f, 0, &ap);
     } else if (t == 't'){
-        a(newCity->lTor, f, 0, arq);
+        a(newCity->lTor, f, 0, &ap);
     } else if (t == 'h'){
-        a(newCity->lHid, f, 0, arq);
+        a(newCity->lHid, f, 0, &ap);
     } else if (t == 's'){
-        a(newCity->lSem, f, 0, arq);
+        a(newCity->lSem, f, 0, &ap);
     } else if (t == 'f'){
-        a(newCity->lFor, f, 1, arq);
-    }
+        a(newCity->lFor, f, 1, &ap);
+    } 
+    va_end(ap);
 }
