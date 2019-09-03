@@ -622,8 +622,11 @@ void leituraQry(int argc, char **argv, double *svgH, double *svgW, FILE *svgQry,
 			fclose(svgBb);
 		} else if (strcmp(word, "dq") == 0){
 			sscanf(line, "%s %s %d %lf", word, suf, &id, &raio);
+			p1 = searchHidrante(*city, id);
 			if (strcmp(suf, "L1") == 0){
-					
+
+			} else {
+
 			}
 		}
 	}

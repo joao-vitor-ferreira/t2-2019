@@ -189,6 +189,24 @@ Posic searchHidrante(Cidade city, char *id){
     return -1;
 }
 
+Posic searchEquipUrban(Cidade city, char *id){
+    Posic p1;
+    p1 = searchHidrante(city, id);
+    if(p1<0){
+        p1 = searchSemaforo(city, id);
+        if(p1<0){
+            p1 = searchTorre(city, id);
+            if (p1<0)
+                return -1;
+            else
+                return p1;
+        } else
+            return p1;
+    } else 
+        return p1;
+    return -1;
+}
+
 void removeForma(Cidade city, Posic p){
     cidade *newCity = (cidade*)city;
     forms *forma = getObjList(newCity->lFor, p);

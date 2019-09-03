@@ -37,6 +37,7 @@ Posic searchSemaforo(Cidade city, char *id);
 Posic searchHidrante(Cidade city, char *id);
 Posic searchTorre(Cidade city, char *id);
 Posic searchForma(Cidade city, int id, int *type);
+Posic searchEquipUrban(Cidade city, char *id);
 void printSvgCidade(Cidade city, FILE *svg);
 void throughCity (Cidade city, Function f, ...);
 /* Dado uma cidade esta função percorre-a elemento por elemento e faz a função determinada func, a partir de alguma das listas determinnadas por t */
