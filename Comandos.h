@@ -5,6 +5,7 @@
 #include <stdio.h>
 
 	typedef char *((*Object)(Item));
+	typedef double (*Dist)(double x1, double y1, double x2, double y2);
 
 char *funcIn(int argc, char **argv, char *str);
 char *concatena(char *str1, char *str2);

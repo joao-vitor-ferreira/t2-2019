@@ -435,16 +435,111 @@ void bb(void *thing, ...){
 	va_end(ap3);
 }
 
+void dqL1(Quadra q, ...){
+	FILE *txt;
+	va_list ap1, *ap2, ap3;
+	double raio, x, y, dist;
+	Posic p1;
+	Cidade city;
+	va_start(ap1, q);
+	ap2 = va_arg(ap1, va_list*);
+	va_copy(ap3, *ap2);
+	raio = va_arg(ap3, double);
+	x = va_arg(ap3, double);
+	y = va_arg(ap3, double);
+	city = va_arg(ap3, Cidade);	
+	txt = va_arg(ap3, FILE*);
+	if (q == NULL){
+		printf("ja era\n");
+		getchar();
+	}
+	dist = distPointsL1(x, y, getQuadraX(q), getQuadraY(q));
+	if (dist <= raio){
+		dist = distPointsL1(x, y, getQuadraX(q) + getQuadraWidth(q), getQuadraY(q));
+		if (dist <=raio){
+			dist = distPointsL1(x, y, getQuadraX(q) + getQuadraWidth(q), getQuadraY(q) + getQuadraHeight(q));
+			if (dist <= raio){
+				dist = distPointsL1(x, y, getQuadraX(q), getQuadraY(q) + getQuadraHeight(q));
+				if (dist <= raio){
+					fprintf(txt, "Equipamento Urbano %s\n", getQuadraCep(q));
+					p1 = searchQuadra(city, getQuadraCep(q));
+					removeQuadra(city, p1);
+				}
+			}
+		}
+	}
+	va_end(ap1);
+	va_end(ap3);
+}
+
+void dqL2(Quadra q, ...){
+		FILE *txt;
+	va_list ap1, *ap2, ap3;
+	double raio, x, y, dist;
+	Posic p1;
+	Cidade city;
+	va_start(ap1, q);
+	ap2 = va_arg(ap1, va_list*);
+	va_copy(ap3, *ap2);
+	raio = va_arg(ap3, double);
+	x = va_arg(ap3, double);
+	y = va_arg(ap3, double);
+	city = va_arg(ap3, Cidade);	
+	txt = va_arg(ap3, FILE*);
+	if (q == NULL){
+		printf("ja era\n");
+		getchar();
+	}
+	dist = distanciaEntrePontos(x, y, getQuadraX(q), getQuadraY(q));
+	if (dist <= raio){
+		dist = distanciaEntrePontos(x, y, getQuadraX(q) + getQuadraWidth(q), getQuadraY(q));
+		if (dist <=raio){
+			dist = distanciaEntrePontos(x, y, getQuadraX(q) + getQuadraWidth(q), getQuadraY(q) + getQuadraHeight(q));
+			if (dist <= raio){
+				dist = distanciaEntrePontos(x, y, getQuadraX(q), getQuadraY(q) + getQuadraHeight(q));
+				if (dist <= raio){
+					fprintf(txt, "Equipamento Urbano %s\n", getQuadraCep(q));
+					p1 = searchQuadra(city, getQuadraCep(q));
+					removeQuadra(city, p1);
+				}
+			}
+		}
+	}
+	va_end(ap1);
+	va_end(ap3);
+}
+
+void cbq(Quadra q, ...){
+	double x, y, raio;
+	FILE *txt;
+	char *cor;
+	va_list ap1, *ap2, ap3;
+	va_start(ap1, q);
+	ap2 = va_arg(ap1, va_list*);
+	va_copy(ap3, *ap2);
+	x = va_arg(ap3, double);
+	y = va_arg(ap3, double);
+	raio = va_arg(ap3, double);
+	cor = va_arg(ap3, char*);
+	txt = va_arg(ap3, FILE*);
+	
+}
+
 void leituraQry(int argc, char **argv, double *svgH, double *svgW, FILE *svgQry, Cidade *city, Vector vetor){
 	FILE *entrada = NULL, *txt = NULL, *svgBb;
 	Item it;
-	int i, j, var, tipo1, tipo2, id;
+	int i, j, var, tipo1, tipo2;
 	Circulo c1 = NULL, c2 = NULL;
 	Retangulo r1 = NULL, r2 = NULL;
+	Hidrante h1, h2;
+	Quadra q1, q2;
+	Semaforo s1, s2;
+	Torre t1, t2;
 	Posic p1, p2;	
 	char *line = NULL, *word = NULL, *cor = NULL, *suf = NULL, 
-	*aux = NULL, *aux2 = NULL, *aux3 = NULL, *text = NULL;
+	*aux = NULL, *aux2 = NULL, *aux3 = NULL, *text = NULL, *id = NULL;
 	double raio, x, y, height, width;
+	id = (char*)malloc(sizeof(char)*20);
 	line = (char*)malloc(sizeof(char)*200);
 	word =(char*)malloc(sizeof(char)*30);
 	cor = (char*)malloc(sizeof(char)*20);
@@ -478,7 +573,7 @@ void leituraQry(int argc, char **argv, double *svgH, double *svgW, FILE *svgQry,
 			}
 			if (txt == NULL){
 				aux = funcTxt(argc, argv);
-				txt = fopen(aux, "w");
+				txt = fopen(aux, "a");
 				funcFree(&aux);
 			}
 			if(*svgW < x)
@@ -492,7 +587,7 @@ void leituraQry(int argc, char **argv, double *svgH, double *svgW, FILE *svgQry,
 				fprintf(txt, "%s\nSIM\n", line);
 				fprintf(svgQry, "<circle cx = \"%f\" cy = \"%f\" r = \"3\" fill = \"green\" stroke=\"green\" stroke-width=\"1\" />\n", x, y);
 			}
-		} else if (strcmp(word, "o?") == 0){	
+		} else if (strcmp(word, "o?") == 0){
 			double xma, yma, xme, yme;
 			var = 0;
 			xma = 0.0;
@@ -542,7 +637,7 @@ void leituraQry(int argc, char **argv, double *svgH, double *svgW, FILE *svgQry,
 			}
 			if (txt == NULL){
 				aux = funcTxt(argc, argv);
-				txt = fopen(aux, "w");
+				txt = fopen(aux, "a");
 				funcFree(&aux);
 			}
 			if (var == 0){
@@ -592,11 +687,11 @@ void leituraQry(int argc, char **argv, double *svgH, double *svgW, FILE *svgQry,
 			}
 			if (txt == NULL){
 				aux = funcTxt(argc, argv);
-				txt = fopen(aux, "w");
+				txt = fopen(aux, "a");
 				funcFree(&aux);
 			}
 			fprintf(txt, "%s\n%.10f\n", line, x);
-		}else if (strcmp(word, "bb") == 0){
+		} else if (strcmp(word, "bb") == 0){
 			sscanf(line, "%s %s %s", word, suf, cor);
 			aux = funcSvgBb(argc, argv, suf);
 			svgBb = fopen(aux, "w");
@@ -621,13 +716,76 @@ void leituraQry(int argc, char **argv, double *svgH, double *svgW, FILE *svgQry,
 			fprintf(svgBb, "</svg>");
 			fclose(svgBb);
 		} else if (strcmp(word, "dq") == 0){
-			sscanf(line, "%s %s %d %lf", word, suf, &id, &raio);
-			p1 = searchHidrante(*city, id);
-			if (strcmp(suf, "L1") == 0){
-
-			} else {
-
+			sscanf(line, "%s %s %s %lf", word, suf, id, &raio);
+			char type, *cepQ, *idE;
+			double raioDeAlcance;
+			p1 = searchEquipUrban(*city, id, &type);
+			if (type == 'h'){
+				h1 = getObjHidrante(*city, p1);
+				x = getHidranteX(h1);
+				y = getHidranteY(h1);
+				idE = getHidranteId(h1);
+			} else if (type == 's'){
+				s1 = getObjSemaforo(*city, p1);
+				x = getSemaforoX(s1);
+				y = getSemaforoY(s1);
+				idE = getSemaforoId(s1);
+			} else if (type == 't'){
+				t1 = getObjTorre(*city, p1);
+				x = getTorreX(t1);
+				y = getTorreY(t1);
+				idE = getTorreId(t1);
+			} else{
+				printf("não encontrado\n");
 			}
+			if (txt == NULL){
+				aux = funcTxt(argc, argv);
+				txt = fopen(aux, "a");
+				funcFree(&aux);
+			}
+			fprintf(txt, "Equipamento Urbano %s\n", idE);
+			fprintf(svgQry, "<circle cx = \"%f\" cy = \"%f\" r = \"10\" fill = \"white\" stroke=\"#ff8800\" stroke-width=\"2\" fill-opacity = \"0.1\"/>\n", x, y);
+			fprintf(svgQry, "<circle cx = \"%f\" cy = \"%f\" r = \"12\" fill = \"white\" stroke=\"black\" stroke-width=\"2\" fill-opacity = \"0.1\"/>\n", x, y);
+			if (strcmp(suf, "L1") == 0){
+				throughCity(*city, &dqL1, 'q', raio, x, y, *city, txt);
+			} else{
+				throughCity(*city, &dqL2, 'q', raio, x, y, *city, txt);
+			}
+		} else if (strcmp(word, "del") == 0){
+			sscanf(line, "%s %s", word, id);
+			char type;
+			if (txt == NULL){
+				aux = funcTxt(argc, argv);
+				txt = fopen(aux, "a");
+				funcFree(&aux);
+			}
+			p1 = searchEquipUrban(*city, id, &type);
+			if (p1 < 0){
+				p1 = searchQuadra(*city, id);
+				if (p1 >=0)
+					type = 'q';
+			}
+			if (type == 's'){
+				removeSemaforo(*city, p1);
+				fprintf(txt, "id: %s foi removido\n", id);
+			} else if (type == 't'){
+				removeTorre(*city, p1);
+				fprintf(txt, "id: %s foi removido\n", id);
+			} else if (type == 'h'){
+				removeHidrante(*city, p1);
+				fprintf(txt, "id: %s foi removido\n", id);
+			} else if (type == 'q'){
+				removeQuadra(*city, p1);
+				fprintf(txt, "id: %s foi removido\n", id);
+			}
+		} else if (strcmp(word, "cbq") == 0){
+			sscanf(line, "%s %d %d %d %s", word, &x, &y, &raio, suf);
+			if (txt == NULL){
+				aux = funcTxt(argc, argv);
+				txt = fopen(aux, "a");
+				funcFree(&aux);
+			}
+			throughCity(*city, &cbq, 'q', x, y, raio, suf, txt);
 		}
 	}
 	if (txt!= NULL)

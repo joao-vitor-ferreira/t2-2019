@@ -181,7 +181,7 @@ Posic searchHidrante(Cidade city, char *id){
     Hidrante h1;
     Posic p1;
     for (p1 = getFirst(newCity->lHid); p1 >= 0; p1 = getNext(newCity->lHid, p1)){
-        h1 = getObjList(newCity->lQua, p1);
+        h1 = getObjList(newCity->lHid, p1);
         if (strcmp(getHidranteId(h1), id) == 0){
             return p1;
         }
@@ -189,21 +189,29 @@ Posic searchHidrante(Cidade city, char *id){
     return -1;
 }
 
-Posic searchEquipUrban(Cidade city, char *id){
+Posic searchEquipUrban(Cidade city, char *id, char *type){
     Posic p1;
     p1 = searchHidrante(city, id);
     if(p1<0){
         p1 = searchSemaforo(city, id);
         if(p1<0){
             p1 = searchTorre(city, id);
-            if (p1<0)
+            if (p1<0){
+                *type = 'z';
                 return -1;
-            else
+            }
+            else {
+                *type = 't';
                 return p1;
-        } else
+            }
+        } else{
+            *type = 's';
             return p1;
-    } else 
+        }
+    } else{
+        *type = 'h';
         return p1;
+    }
     return -1;
 }
 
@@ -234,13 +242,13 @@ void removeForma(Cidade city, Posic p){
 void removeQuadra(Cidade city, Posic p){
     cidade *newCity = (cidade*)city;
     Quadra q1 = getObjList(newCity->lQua, p);
-    if (getQuadraCep(q1) != NULL)
-        free(getQuadraCep(q1));
-    if (getQuadraCorContorno(q1) != NULL)
-        free(getQuadraCorContorno(q1));
-    if (getQuadraCorPreenchimento(q1) != NULL)
-        free(getQuadraCorPreenchimento(q1));
-    free(q1);
+        if (getQuadraCep(q1) != NULL)
+            free(getQuadraCep(q1));
+        if (getQuadraCorContorno(q1) != NULL)
+            free(getQuadraCorContorno(q1));
+        if (getQuadraCorPreenchimento(q1) != NULL)
+            free(getQuadraCorPreenchimento(q1));
+        free(q1);
     removeList(newCity->lQua, p);
 }
 
@@ -301,18 +309,20 @@ void printSvgCidade(Cidade city, FILE *svg){
 }
 
 void a(Lista list, Function f, int forma, va_list *ap){
-    int position = getFirst(list);
+    int position = getFirst(list), paux;
     forms *cor; // circulo ou retangulo
-    for (;position >= 0; position = getNext(list, position)){
-        printf("FORMA: %d\n", forma);
+    for (;position >= 0;){
+        paux = position;
+        position = getNext(list, position);
         if (forma){
-            cor = (forms*)getObjList(list, position);
-            if(cor->type == 1)
+            cor = (forms*)getObjList(list, paux);
+            if(cor->type == 1){
                 f(cor->thing, 1, ap);
-            else
+            }else{
                 f(cor->thing, 0, ap);
+            }
         } else{
-            f(getObjList(list, position), ap);
+            f(getObjList(list, paux),ap);
         }
     }
 }

@@ -27,6 +27,7 @@ Item getObjQuadra(Cidade city, Posic p);
 Item getObjHidrante(Cidade city, Posic p);
 Item getObjSemaforo(Cidade city, Posic p);
 Item getObjHidrante(Cidade city, Posic p);  
+Item getObjTorre(Cidade city, Posic p);
 void removeForma(Cidade city, Posic p);
 void removeQuadra(Cidade city, Posic p);
 void removeTorre(Cidade city, Posic p);
@@ -37,7 +38,7 @@ Posic searchSemaforo(Cidade city, char *id);
 Posic searchHidrante(Cidade city, char *id);
 Posic searchTorre(Cidade city, char *id);
 Posic searchForma(Cidade city, int id, int *type);
-Posic searchEquipUrban(Cidade city, char *id);
+Posic searchEquipUrban(Cidade city, char *id, char *type);
 void printSvgCidade(Cidade city, FILE *svg);
 void throughCity (Cidade city, Function f, ...);
 /* Dado uma cidade esta função percorre-a elemento por elemento e faz a função determinada func, a partir de alguma das listas determinnadas por t */

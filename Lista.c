@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Lista.h"
+#include "Quadra.h"
 
 typedef struct{
 	Posic prev;
@@ -53,9 +54,9 @@ Posic insertList(Lista L, Item info){
 	Posic p;
 	if (newHead->fep >= 0){
 		newHead->vet[newHead->fep].thing = info;
-		if (newHead->fist != -1)
-			newHead->vet[newHead->vet[newHead->fep].prev].next = newHead->fep;
-		else
+		if (newHead->fist >= 0){
+			newHead->vet[newHead->vet[newHead->fep].prev].next = newHead->fep;	
+		}else
 			newHead->fist = newHead->fep;
 		newHead->last = newHead->fep;
 		newHead->fep = newHead->vet[newHead->fep].next;
@@ -64,32 +65,44 @@ Posic insertList(Lista L, Item info){
 	} else{
 		printf("Lista cheia\n");
 		return -1;
-	}	
+	}
 	return (newHead->vet[newHead->fep]).prev;
+}
+
+
+Item getObjList(Lista L, Posic p){
+	head *newHead = (head*)L;
+	return newHead->vet[p].thing;
 }
 
 void removeList(Lista L, Posic p){
 	head *newHead = (head*)L;
 	// fep == -1
-	if(newHead->fist == p){
+	if (newHead->qtd_elementos == 1){
+		newHead->fep = p;
+		newHead->fist = -1;
+		newHead->last = -1;
+	} else {
+		if(newHead->fist == p){
 		newHead->fist = newHead->vet[newHead->fist].next;
 		newHead->vet[newHead->fist].prev = -1;
 		newHead->vet[p].next = newHead->fep;
 		newHead->vet[p].prev = newHead->last;
 		newHead->vet[newHead->fep].prev = p;
 		newHead->fep = p;
-	} else if (newHead->last == p){
-		newHead->vet[newHead->vet[p].prev].next = -1;
-		newHead->vet[p].next = newHead->fep;
-		newHead->fep = p;
-		newHead->last = newHead->vet[p].prev;
-	} else {
-		newHead->vet[newHead->vet[p].prev].next = newHead->vet[p].next;
-		newHead->vet[newHead->vet[p].next].prev = newHead->vet[p].prev;
-		newHead->vet[p].next = newHead->fep;
-		newHead->vet[newHead->fep].prev = p;
-		newHead->vet[p].prev = newHead->last;
-		newHead->fep = p;
+		} else if (newHead->last == p){
+			newHead->vet[newHead->vet[p].prev].next = -1;
+			newHead->vet[p].next = newHead->fep;
+			newHead->fep = p;
+			newHead->last = newHead->vet[p].prev;
+		} else {
+			newHead->vet[newHead->vet[p].prev].next = newHead->vet[p].next;
+			newHead->vet[newHead->vet[p].next].prev = newHead->vet[p].prev;
+			newHead->vet[p].next = newHead->fep;
+			newHead->vet[newHead->fep].prev = p;
+			newHead->vet[p].prev = newHead->last;
+			newHead->fep = p;
+		}
 	}
 	newHead->qtd_elementos--;
 }
@@ -112,11 +125,6 @@ Posic getNext(Lista L, Posic p){
 Posic getPrevious(Lista L,Posic p){
 	head *newHead = (head*)L;
 	return newHead->vet[p].prev;
-}
-
-Item getObjList(Lista L, Posic p){
-	head *newHead = (head*)L;
-	return newHead->vet[p].thing;
 }
 
 void deleteList(Lista L){

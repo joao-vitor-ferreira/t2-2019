@@ -2,3 +2,9 @@ i? 518 4.90000 67.88888
 o? 517 518
 d? 3 518
 bb a-001 red
+dq L1 hnob02.4 1000.000000
+dq L2 hnob02.4 150.000000
+del hnb04.4
+del rbb05.1
+del sfb04.3
+del hnb04.4

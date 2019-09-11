@@ -4,3 +4,244 @@ o? 517 518
 SIM
 d? 3 518
 102.5195103383
+Equipmento Urbano hnob02.4
+Equipmento Urbano b01.1
+Equipmento Urbano b01.2
+Equipmento Urbano b01.3
+Equipmento Urbano b01.4
+Equipmento Urbano b01.5
+Equipmento Urbano b02.1
+Equipmento Urbano b02.2
+Equipmento Urbano b02.3
+Equipmento Urbano b02.4
+Equipmento Urbano b02.5
+Equipmento Urbano b03.1
+Equipmento Urbano b03.2
+Equipmento Urbano b03.3
+Equipmento Urbano b03.4
+Equipmento Urbano b03.5
+Equipmento Urbano b04.1
+Equipmento Urbano b04.2
+Equipmento Urbano b04.3
+Equipmento Urbano b04.4
+Equipmento Urbano b04.5
+Equipmento Urbano b05.1
+Equipmento Urbano b05.2
+Equipmento Urbano b05.3
+Equipmento Urbano b05.4
+Equipmento Urbano b05.5
+Equipmento Urbano hnob02.4
+i? 518 4.90000 67.88888
+NÃO
+o? 517 518
+SIM
+d? 3 518
+102.5195103383
+Equipamento Urbano hnob02.4
+Equipamento Urbano b01.1
+Equipamento Urbano b01.2
+Equipamento Urbano b01.3
+Equipamento Urbano b01.4
+Equipamento Urbano b01.5
+Equipamento Urbano b02.1
+Equipamento Urbano b02.2
+Equipamento Urbano b02.3
+Equipamento Urbano b02.4
+Equipamento Urbano b02.5
+Equipamento Urbano b03.1
+Equipamento Urbano b03.2
+Equipamento Urbano b03.3
+Equipamento Urbano b03.4
+Equipamento Urbano b03.5
+Equipamento Urbano b04.1
+Equipamento Urbano b04.2
+Equipamento Urbano b04.3
+Equipamento Urbano b04.4
+Equipamento Urbano b04.5
+Equipamento Urbano b05.1
+Equipamento Urbano b05.2
+Equipamento Urbano b05.3
+Equipamento Urbano b05.4
+Equipamento Urbano b05.5
+Equipamento Urbano hnob02.4
+i? 518 4.90000 67.88888
+NÃO
+o? 517 518
+SIM
+d? 3 518
+102.5195103383
+Equipamento Urbano hnob02.4
+Equipamento Urbano b01.1
+Equipamento Urbano b01.2
+Equipamento Urbano b01.3
+Equipamento Urbano b01.4
+Equipamento Urbano b01.5
+Equipamento Urbano b02.1
+Equipamento Urbano b02.2
+Equipamento Urbano b02.3
+Equipamento Urbano b02.4
+Equipamento Urbano b02.5
+Equipamento Urbano b03.1
+Equipamento Urbano b03.2
+Equipamento Urbano b03.3
+Equipamento Urbano b03.4
+Equipamento Urbano b03.5
+Equipamento Urbano b04.1
+Equipamento Urbano b04.2
+Equipamento Urbano b04.3
+Equipamento Urbano b04.4
+Equipamento Urbano b04.5
+Equipamento Urbano b05.1
+Equipamento Urbano b05.2
+Equipamento Urbano b05.3
+Equipamento Urbano b05.4
+Equipamento Urbano b05.5
+Equipamento Urbano hnob02.4
+id: hnb04.4 foi removido
+id: rbb05.1 foi removido
+id: sfb04.3 foi removido
+i? 518 4.90000 67.88888
+NÃO
+o? 517 518
+SIM
+d? 3 518
+102.5195103383
+Equipamento Urbano hnob02.4
+Equipamento Urbano b01.1
+Equipamento Urbano b01.2
+Equipamento Urbano b01.3
+Equipamento Urbano b01.4
+Equipamento Urbano b01.5
+Equipamento Urbano b02.1
+Equipamento Urbano b02.2
+Equipamento Urbano b02.3
+Equipamento Urbano b02.4
+Equipamento Urbano b02.5
+Equipamento Urbano b03.1
+Equipamento Urbano b03.2
+Equipamento Urbano b03.3
+Equipamento Urbano b03.4
+Equipamento Urbano b03.5
+Equipamento Urbano b04.1
+Equipamento Urbano b04.2
+Equipamento Urbano b04.3
+Equipamento Urbano b04.4
+Equipamento Urbano b04.5
+Equipamento Urbano b05.1
+Equipamento Urbano b05.2
+Equipamento Urbano b05.3
+Equipamento Urbano b05.4
+Equipamento Urbano b05.5
+Equipamento Urbano hnob02.4
+id: hnb04.4 foi removido
+id: rbb05.1 foi removido
+id: sfb04.3 foi removido
+i? 518 4.90000 67.88888
+NÃO
+o? 517 518
+SIM
+d? 3 518
+102.5195103383
+Equipamento Urbano hnob02.4
+Equipamento Urbano b01.1
+Equipamento Urbano b01.2
+Equipamento Urbano b01.3
+Equipamento Urbano b01.4
+Equipamento Urbano b01.5
+Equipamento Urbano b02.1
+Equipamento Urbano b02.2
+Equipamento Urbano b02.3
+Equipamento Urbano b02.4
+Equipamento Urbano b02.5
+Equipamento Urbano b03.1
+Equipamento Urbano b03.2
+Equipamento Urbano b03.3
+Equipamento Urbano b03.4
+Equipamento Urbano b03.5
+Equipamento Urbano b04.1
+Equipamento Urbano b04.2
+Equipamento Urbano b04.3
+Equipamento Urbano b04.4
+Equipamento Urbano b04.5
+Equipamento Urbano b05.1
+Equipamento Urbano b05.2
+Equipamento Urbano b05.3
+Equipamento Urbano b05.4
+Equipamento Urbano b05.5
+Equipamento Urbano hnob02.4
+id: hnb04.4 foi removido
+id: rbb05.1 foi removido
+id: sfb04.3 foi removido
+id: hnb04.4 foi removido
+i? 518 4.90000 67.88888
+NÃO
+o? 517 518
+SIM
+d? 3 518
+102.5195103383
+Equipamento Urbano hnob02.4
+Equipamento Urbano b01.1
+Equipamento Urbano b01.2
+Equipamento Urbano b01.3
+Equipamento Urbano b01.4
+Equipamento Urbano b01.5
+Equipamento Urbano b02.1
+Equipamento Urbano b02.2
+Equipamento Urbano b02.3
+Equipamento Urbano b02.4
+Equipamento Urbano b02.5
+Equipamento Urbano b03.1
+Equipamento Urbano b03.2
+Equipamento Urbano b03.3
+Equipamento Urbano b03.4
+Equipamento Urbano b03.5
+Equipamento Urbano b04.1
+Equipamento Urbano b04.2
+Equipamento Urbano b04.3
+Equipamento Urbano b04.4
+Equipamento Urbano b04.5
+Equipamento Urbano b05.1
+Equipamento Urbano b05.2
+Equipamento Urbano b05.3
+Equipamento Urbano b05.4
+Equipamento Urbano b05.5
+Equipamento Urbano hnob02.4
+id: hnb04.4 foi removido
+id: rbb05.1 foi removido
+id: sfb04.3 foi removido
+i? 518 4.90000 67.88888
+NÃO
+o? 517 518
+SIM
+d? 3 518
+102.5195103383
+Equipamento Urbano hnob02.4
+Equipamento Urbano b01.1
+Equipamento Urbano b01.2
+Equipamento Urbano b01.3
+Equipamento Urbano b01.4
+Equipamento Urbano b01.5
+Equipamento Urbano b02.1
+Equipamento Urbano b02.2
+Equipamento Urbano b02.3
+Equipamento Urbano b02.4
+Equipamento Urbano b02.5
+Equipamento Urbano b03.1
+Equipamento Urbano b03.2
+Equipamento Urbano b03.3
+Equipamento Urbano b03.4
+Equipamento Urbano b03.5
+Equipamento Urbano b04.1
+Equipamento Urbano b04.2
+Equipamento Urbano b04.3
+Equipamento Urbano b04.4
+Equipamento Urbano b04.5
+Equipamento Urbano b05.1
+Equipamento Urbano b05.2
+Equipamento Urbano b05.3
+Equipamento Urbano b05.4
+Equipamento Urbano b05.5
+Equipamento Urbano hnob02.4
+id: hnb04.4 foi removido
+id: rbb05.1 foi removido
+id: sfb04.3 foi removido

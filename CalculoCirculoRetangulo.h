@@ -25,4 +25,6 @@ double dcmCirculoRetangulo(Circulo c1, Retangulo r1);
 /* A FUNÇÃO RETORNA A DISTÂNCIA DO CENTRO DE UM CIRCULO E DE UM RETANGULOS*/
 double dcmCirculoCirculo(Circulo c1, Circulo c2);
 /* A FUNÇÃO RETORNA A DISTÂNCIA DO CENTRO DE MASSA DE DOIS CIRCULO*/
+double distPointsL1(double x1, double y1, double x2, double y2);
+/*A FUNÇÃO RETORNA A DISTANCIA ENTRE DOIS PONTOS DE ACORDO COM A METRICA L1*/
 #endif

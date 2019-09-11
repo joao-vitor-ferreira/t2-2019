@@ -171,5 +171,6 @@ double funcAbs(double value){
 }
 
 double distPointsL1(double x1, double y1, double x2, double y2){
-	return (funcAbs(x1-x2) + funcAbs(y1-y2));
+	double dist = funcAbs(x1-x2) + funcAbs(y1-y2);
+	return (dist);
 }
