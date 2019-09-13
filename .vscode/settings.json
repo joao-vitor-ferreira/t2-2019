@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "calculocirculoretangulo.h": "c",
-        "svg.h": "c"
+        "svg.h": "c",
+        "retangulo.h": "c"
     }
 }

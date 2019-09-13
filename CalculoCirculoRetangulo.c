@@ -174,3 +174,20 @@ double distPointsL1(double x1, double y1, double x2, double y2){
 	double dist = funcAbs(x1-x2) + funcAbs(y1-y2);
 	return (dist);
 }
+
+int retanguloInternoCirculo(double xr, double yr, double width, double height, double xc, double yc, double raio){
+	double dist;
+	dist = distanciaEntrePontos(xr, yr, xc, yc);
+	if (dist <= raio){
+		dist = distanciaEntrePontos(xr + width, yr, xc, yc);
+		if (dist <= raio){
+			dist = distanciaEntrePontos(xr, yr + height, xc, yc);
+			if (dist <= raio){
+				dist = distanciaEntrePontos(xr + width, yr + height, xc, yc);
+				if (dist <= raio)
+					return 1;
+			}
+		}
+	}
+	return 0;
+}
