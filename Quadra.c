@@ -84,6 +84,16 @@ void setQuadraCorContorno(Quadra q, char *cor){
 	newQuadra->corContorno = cor;
 }
 
+void setQuadraX(Quadra q, double x){
+	quadra *newQuadra = (quadra*)q;
+	newQuadra->x = x;
+}
+
+void setQuadraY(Quadra q, double y){
+	quadra *newQuadra = (quadra*)q;
+	newQuadra->y = y;
+}
+
 int quadraInternaRetangulo(FILE **txt, Quadra q, Retangulo r){
 	int var = 0;
 	var = pontoInternoRetangulo(r, getQuadraX(q), getQuadraY(q));

@@ -533,6 +533,28 @@ void cbq(Quadra q, ...){
 	va_end(ap3);
 }
 
+void trnsQua(Quadra q, ...){
+	double x, y, width, height, dx, dy;
+	int i;
+	FILE *txt;
+	va_list ap1, *ap2, ap3;
+	va_start(ap1, q);
+	ap2 = va_arg(ap1, va_list*);
+	va_copy(ap3, *ap2);
+	x = va_arg(ap3, double);
+	y = va_arg(ap3, double);
+	width = va_arg(ap3, double);
+	height = va_arg(ap3, double);
+	dx = va_arg(ap3, double);
+	dy = va_arg(ap3, double);
+	i = retanguloInternoRetangulo(getQuadraX(q), getQuadraY(q), getQuadraWidth(q), getQuadraHeight(q), x, y, width, height);
+	if (i){
+		fprintf(txt, "Quadra cep: %s coordenadas antigas (%f, %f) coordenadas atualizadas (%f, %f)\n", getQuadraCep(q), getQuadraX(q), getQuadraY(q), getQuadraX(q) + dx, getQuadraY(q) + dy);
+		setQuadraX(q, getQuadraX(q) + dx);
+		setQuadraY(q, getQuadraY(q) + dy);
+	}
+}
+
 void leituraQry(int argc, char **argv, double *svgH, double *svgW, FILE *svgQry, Cidade *city, Vector vetor){
 	FILE *entrada = NULL, *txt = NULL, *svgBb;
 	Item it;

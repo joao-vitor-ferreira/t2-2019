@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include "CalculoCirculoRetangulo.h"
 #include "Retangulo.h"
@@ -189,5 +190,49 @@ int retanguloInternoCirculo(double xr, double yr, double width, double height, d
 			}
 		}
 	}
+	return 0;
+}
+
+int retanguloInternoRetangulo(double xi, double yi, double wi, double hi, double xe, double ye, double we, double he){
+	int i;
+	Retangulo r;
+	r = creatRetangulo(0, we, he, xe, ye, NULL, NULL, 0);
+	i = pontoInternoRetangulo(r, xi, yi);
+	if (i){
+		i = pontoInternoRetangulo(r, xi + wi, yi);
+		if (i){
+			i = pontoInternoRetangulo(r, xi, yi + hi);
+			if (i){
+				i = pontoInternoRetangulo(r, xi + wi, yi + hi);
+				if (i){
+					freeRetangulo(r);
+					return 1;
+				}
+			}
+		}
+	}
+	freeRetangulo(r);
+	return 0;
+}
+
+int circuloInternoRetangulo(double raio, double xc, double yc, double xr, double yr, double wr, double hr){
+	int i;
+	Retangulo r;
+	r = creatRetangulo(0, wr, hr, xr, yr, NULL, NULL, 0);
+	i = pontoInternoRetangulo(r, xc - raio, yc);
+	if (i){
+		i = pontoInternoRetangulo(r, xc + raio, yc);
+		if (i){
+			i = pontoInternoRetangulo(r, xc, yc - raio);
+			if (i){
+				i = pontoInternoRetangulo(r, xc, yc + raio);
+				if (i){
+					freeRetangulo(r);
+					return 1;
+				}
+			}
+		}
+	}
+	freeRetangulo(r);
 	return 0;
 }

@@ -13,6 +13,8 @@ char *getQuadraCorContorno(Quadra q);
 char *getQuadraCorPreenchimento(Quadra q);
 void setQuadraCorPreenchimento(Quadra q, char *cor);
 void setQuadraCorContorno(Quadra q, char *cor);
+void setQuadraX(Quadra q, double x);
+void setQuadraY(Quadra q, double y);
 char *getQuadraCep(Quadra q);
 double getQuadraX(Quadra q);
 double getQuadraSW(Quadra q);
@@ -24,5 +26,4 @@ int verificaQuadraInternaRegiaoRet(Quadra q, double x, double y, double w, doubl
 int quadraInternaCirculo(FILE **txt, Quadra q, Circulo c);
 int comparaQuadra(Quadra q1, char *id);
 void freeQuadra(Quadra q);
-
 #endif

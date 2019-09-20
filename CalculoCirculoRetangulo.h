@@ -29,4 +29,8 @@ double dcmCirculoCirculo(Circulo c1, Circulo c2);
 double distPointsL1(double x1, double y1, double x2, double y2);
 /*A FUNÇÃO VERIFICA SE OS PONTOS REFERENTES AO RETANGULO NO SVG (XR, YR, WIDTH, HEIGHT) ESTÃO INTEIRAMENTE DENTRO DO CIRCULO (XC, YC, RAIO)*/
 int retanguloInternoCirculo(double xr, double yr, double width, double height, double xc, double yc, double raio);
+/*A FUNÇÃO VERIFICA SE O RETANGULO(RI) ESTÁ TOTALMENTE INSERIDO DENTRO DE OUTRO RETANGULO(RE)*/
+int retanguloInternoRetangulo(double xi, double yi, double wi, double hi, double xe, double ye, double we, double he);
+/*A FUNÇÃO VERIFICA SE O CIRCULO(C) ESTÁ TOTALMENTE INSERIDO DENTRO DE OUTRO RETANGULO(R)*/
+int circuloInternoRetangulo(double raio, double xc, double yc, double xr, double yr, double wr, double hr);
 #endif
