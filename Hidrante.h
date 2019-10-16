@@ -15,6 +15,8 @@ char *getHidranteCorPreenchimento(Hidrante h);
 char *getHidranteCorContorno(Hidrante h);
 void setHidranteCorPreenchimento(Hidrante h, char *cor);
 void setHidranteCorContorno(Hidrante h, char *cor);
+void setHidranteX(Hidrante h, double x);
+void setHidranteY(Hidrante h, double y);
 int hidranteInternoRetangulo(FILE **txt, Hidrante h, Retangulo r);
 int hidranteInternoCirculo(FILE **txt, Hidrante h, Circulo c);
 void freeHidrante(Hidrante h);

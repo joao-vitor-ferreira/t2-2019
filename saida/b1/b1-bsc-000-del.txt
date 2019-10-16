@@ -1,0 +1,12 @@
+id: b02.3 coordenadas (295.000000, 120.000000)
+id: hnb04.4 coordenadas (490.000000, 390.000000)
+id: rbb05.1 coordenadas (85.000000, 445.000000)
+id: sfb04.3 coordenadas (287.500000, 302.500000)
+id: b02.3 foi removido
+id: hnb04.4 foi removido
+id: rbb05.1 foi removido
+id: sfb04.3 foi removido
+b02.3 não existe
+hnb04.4 não existe
+rbb05.1 não existe
+sfb04.3 não existe

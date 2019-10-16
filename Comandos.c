@@ -221,6 +221,36 @@ void svgCmpRetangulo(double *svgH, double *svgW, double x, double y, double heig
 		*svgH = y + height;
 }
 
+void svgVwQ(Quadra q, ...){
+	va_list ap1, *ap2, ap3;
+	double *svgH, *svgW;
+	va_start(ap1, q);
+	ap2 = va_arg(ap1, va_list*);
+	va_copy(ap3, *ap2);
+	svgW = va_arg(ap3, double*);
+	svgH = va_arg(ap3, double*);
+	svgCmpRetangulo(svgH, svgW, getQuadraX(q), getQuadraY(q), getQuadraHeight(q), getQuadraWidth(q));
+}
+
+void svgVwSem(Semaforo s, ...){
+	double *svgH, *svgW;
+	va_list ap1, *ap2, ap3;
+	va_start(ap1, s);
+	ap2 = va_arg(ap1, va_list*);
+	va_copy(ap3, *ap2);
+	svgW = va_arg(ap3, double*);
+	svgW - va_arg(ap3, double*);
+	svgCmpCirculo(svgH, svgW, getSemaforoX(s), getSemaforoY(s), 1.0);
+}
+
+void calcViewBoxSvg(Cidade city, double *svgW, double *svgH){
+	throughCity(city, &svgVwQ, 'q', svgW, svgH);
+	throughCity(city, &calcViewBoxSvg, 's', svgW, svgH);
+	throughCity(city, &calcViewBoxSvg, 'h', svgW, svgH);
+	throughCity(city, &calcViewBoxSvg, 't', svgW, svgH);
+	throughCity(city, &calcViewBoxSvg, 'f', svgW, svgH);
+}
+
 void leituraGeo(int argc, char **argv, double *svgH, double *svgW, FILE *svgMain, Cidade *city){
 	int NQ = 1000, NS = 1000, NH = 1000, NR = 1000, NF = 1000, i, type;
 	FILE *entrada = NULL;
@@ -251,6 +281,10 @@ void leituraGeo(int argc, char **argv, double *svgH, double *svgW, FILE *svgMain
 	aux = colocaBarra(pegaParametro(argc, argv, "-e"));
 	aux2 = concatena(aux, pegaParametro(argc, argv, "-f"));
 	entrada = fopen(aux2, "r");
+		if(entrada == NULL){
+		printf("DIRETÓRIO OU ARQUIVO INVÁLIDOS\n");
+		return;
+	}
 	funcFree(&aux);
 	funcFree(&aux2);
 
@@ -390,7 +424,7 @@ void leituraGeo(int argc, char **argv, double *svgH, double *svgW, FILE *svgMain
 
 char *funcSvgBb(int argc, char **argv, char *suf){
 	char *dir, *qry, *bb, *aux, *geo;
-	dir  = colocaBarra(pegaParametro(argc, argv, "-o"));
+	dir = colocaBarra(pegaParametro(argc, argv, "-o"));
 	qry = pegaNomeBase(pegaParametro(argc, argv, "-q"));
 	geo = pegaNomeBase(pegaParametro(argc, argv, "-f"));
 	aux = concatena(dir, geo);
@@ -547,6 +581,7 @@ void trnsQua(Quadra q, ...){
 	height = va_arg(ap3, double);
 	dx = va_arg(ap3, double);
 	dy = va_arg(ap3, double);
+	txt = va_arg(ap3, FILE*);
 	i = retanguloInternoRetangulo(getQuadraX(q), getQuadraY(q), getQuadraWidth(q), getQuadraHeight(q), x, y, width, height);
 	if (i){
 		fprintf(txt, "Quadra cep: %s coordenadas antigas (%f, %f) coordenadas atualizadas (%f, %f)\n", getQuadraCep(q), getQuadraX(q), getQuadraY(q), getQuadraX(q) + dx, getQuadraY(q) + dy);
@@ -554,6 +589,76 @@ void trnsQua(Quadra q, ...){
 		setQuadraY(q, getQuadraY(q) + dy);
 	}
 }
+
+void trnsSem(Semaforo s, ...){
+	double x, y, width, height, dx, dy;
+	int i;
+	FILE *txt;
+	va_list ap1, *ap2, ap3;
+	va_start(ap1, s);
+	ap2 = va_arg(ap1, va_list*);
+	va_copy(ap3, *ap2);
+	x = va_arg(ap3, double);
+	y = va_arg(ap3, double);
+	width = va_arg(ap3, double);
+	height = va_arg(ap3, double);
+	dx = va_arg(ap3, double);
+	dy = va_arg(ap3, double);
+	txt = va_arg(ap3, FILE*);
+	i = circuloInternoRetangulo(1.0, getSemaforoX(s), getSemaforoY(s), x, y, width, height);
+	if (i){
+		fprintf(txt, "Quadra cep: %s coordenadas antigas (%f, %f) coordenadas atualizadas (%f, %f)\n", getSemaforoId(s), getSemaforoX(s), getSemaforoY(s), getSemaforoX(s) + dx, getSemaforoY(s) + dy);
+		setSemaforoX(s, getSemaforoX(s) + dx);
+		setSemaforoY(s, getSemaforoY(s) + dy);
+	}
+}
+
+void trnsHid(Hidrante h, ...){
+	double x, y, width, height, dx, dy;
+	int i;
+	FILE *txt;
+	va_list ap1, *ap2, ap3;
+	va_start(ap1, h);
+	ap2 = va_arg(ap1, va_list*);
+	va_copy(ap3, *ap2);
+	x = va_arg(ap3, double);
+	y = va_arg(ap3, double);
+	width = va_arg(ap3, double);
+	height = va_arg(ap3, double);
+	dx = va_arg(ap3, double);
+	dy = va_arg(ap3, double);
+	txt = va_arg(ap3, FILE*);
+	i = circuloInternoRetangulo(1.0, getHidranteX(h), getHidranteY(h), x, y, width, height);
+	if (i){
+		fprintf(txt, "Hidrante id: %s coordenadas antigas (%f, %f) coordenadas atualizadas (%f, %f)\n", getHidranteId(h), getHidranteX(h), getHidranteY(h), getHidranteX(h) + dx, getHidranteY(h) + dy);
+		setHidranteX(h, getHidranteX(h) + dx);
+		setHidranteY(h, getHidranteY(h) + dy);
+	}
+}
+
+void trnsTor(Torre t, ...){
+	double x, y, width, height, dx, dy;
+	int i;
+	FILE *txt;
+	va_list ap1, *ap2, ap3;
+	va_start(ap1, t);
+	ap2 = va_arg(ap1, va_list*);
+	va_copy(ap3, *ap2);
+	x = va_arg(ap3, double);
+	y = va_arg(ap3, double);
+	width = va_arg(ap3, double);
+	height = va_arg(ap3, double);
+	dx = va_arg(ap3, double);
+	dy = va_arg(ap3, double);
+	txt = va_arg(ap3, FILE*);
+	i = circuloInternoRetangulo(1.0, getTorreX(t), getTorreY(t), x, y, width, height);
+	if (i){
+		fprintf(txt, "Hidrante id: %s coordenadas antigas (%f, %f) coordenadas atualizadas (%f, %f)\n", getTorreId(t), getTorreX(t), getTorreY(t), getTorreX(t) + dx, getTorreY(t) + dy);
+		setTorreX(t, getTorreX(t) + dx);
+		setTorreY(t, getTorreY(t) + dy);
+	}
+}
+
 
 void leituraQry(int argc, char **argv, double *svgH, double *svgW, FILE *svgQry, Cidade *city, Vector vetor){
 	FILE *entrada = NULL, *txt = NULL, *svgBb;
@@ -577,6 +682,10 @@ void leituraQry(int argc, char **argv, double *svgH, double *svgW, FILE *svgQry,
 	aux = colocaBarra(pegaParametro(argc, argv, "-e"));
 	aux2 = concatena(aux, pegaParametro(argc, argv, "-q"));
 	entrada = fopen(aux2, "r");
+	if(entrada == NULL){
+		printf("DIRETÓRIO OU ARQUIVO INVÁLIDOS\n");
+		return;
+	}
 	funcFree(&aux);
 	funcFree(&aux2);
 	while(!feof(entrada)){
@@ -723,7 +832,7 @@ void leituraQry(int argc, char **argv, double *svgH, double *svgW, FILE *svgQry,
 			fprintf(txt, "%s\n%.10f\n", line, x);
 		} else if (strcmp(word, "bb") == 0){
 			sscanf(line, "%s %s %s", word, suf, cor);
-			aux = funcSvgBb(argc, argv, suf);
+			aux = funcSvgBb(argc, argv, cor);
 			svgBb = fopen(aux, "w");
 			funcFree(&aux);
 			fprintf(svgBb, "<svg width = \"%f\" height = \"%f\">\n", *svgW, *svgH);
@@ -853,10 +962,14 @@ void leituraQry(int argc, char **argv, double *svgH, double *svgW, FILE *svgQry,
 				funcFree(&aux);
 			}
 			throughCity(*city, &trnsQua, 'q', x, y, width, height, dx, dy, txt);
+			throughCity(*city, &trnsSem, 's', x, y, width, height, dx, dy, txt);
+			throughCity(*city, &trnsHid , 'h', x, y, width, height, dx, dy, txt);
+			throughCity(*city, &trnsTor, 't', x, y, width, height, dx, dy, txt);
 		}
 	}
 	if (txt!= NULL)
 		fclose(txt);
+	funcFree(&id);
 	funcFree(&line);
 	funcFree(&word);
 	funcFree(&cor);

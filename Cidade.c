@@ -313,9 +313,9 @@ void a(Lista list, Function f, int forma, va_list *ap){
     forms *cor; // circulo ou retangulo
     for (;position >= 0;){
         paux = position;
-        printf("paux %d\n", paux);
+        //printf("paux %d\n", paux);
         position = getNext(list, position);
-        printf("pos %d\n", position);
+        //printf("pos %d\n", position);
         if (forma){
             cor = (forms*)getObjList(list, paux);
             if(cor->type == 1){

@@ -69,6 +69,16 @@ void setTorreCorContorno(Torre t, char *cor){
 	newTorre->corContorno = cor;
 }
 
+void setTorreX(Torre t, double x){
+	torre *newTorre = (torre*)t;
+	newTorre->x = x;
+}
+
+void setTorreY(Torre t, double y){
+	torre *newTorre = (torre*)t;
+	newTorre->y = y;
+}
+
 int torreInternaRetangulo(FILE **txt, Torre t, Retangulo r){
 	if (pontoInternoRetangulo(r, getTorreX(t), getTorreY(t)) == 1){
 		if (*txt != NULL)

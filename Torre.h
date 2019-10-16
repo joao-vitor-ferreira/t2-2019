@@ -15,6 +15,8 @@ char *getTorreCorPreenchimento(Torre t);
 char *getTorreCorContorno(Torre t);
 void setTorreCorPreenchimento(Torre t, char *cor);
 void setTorreCorContorno(Torre t, char *cor);
+void setTorreX(Torre t, double x);
+void setTorreY(Torre t, double y);
 int torreInternaRetangulo(FILE **txt, Torre t, Retangulo r);
 int torreInternaCirculo(FILE **txt, Torre t, Circulo c);
 int cmpTorre(Torre t1, char *id);

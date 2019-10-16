@@ -68,6 +68,16 @@ void setHidranteCorContorno(Hidrante h, char *cor){
 	newHidrante->corContorno = cor;
 }
 
+void setHidranteX(Hidrante h, double x){
+	hidrante *newHidrante = (hidrante*)h;
+	newHidrante->x += x;
+}
+
+void setHidranteY(Hidrante h, double y){
+	hidrante *newHidrante = (hidrante*)h;
+	newHidrante->y += y;
+}
+
 int hidranteInternoRetangulo(FILE **txt, Hidrante h, Retangulo r){
 	double d;
 	if (pontoInternoRetangulo(r, getHidranteX(h), getHidranteY(h)) == 1){

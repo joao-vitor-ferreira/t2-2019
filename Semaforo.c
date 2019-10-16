@@ -68,6 +68,17 @@ void setSemaforoCorContorno(Semaforo h, char *cor){
 		free(newSemaforo->corContorno);
 	newSemaforo->corContorno = cor;
 }
+
+void setSemaforoX(Semaforo s, double x){
+	semaforo *newSemaforo = (semaforo*)s;
+	newSemaforo->x += x;
+}
+
+void setSemaforoY(Semaforo s, double y){
+	semaforo *newSemaforo = (semaforo*)s;
+	newSemaforo->y += y;
+}
+
 int semaforoInternoRetangulo(FILE **txt, Semaforo s, Retangulo r){
 	if (pontoInternoRetangulo(r, getSemaforoX(s), getSemaforoY(s)) == 1){
 		if (*txt != NULL)		

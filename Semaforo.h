@@ -14,6 +14,8 @@ char *getSemaforoId(Semaforo h);
 char *getSemaforoCorPreenchimento(Semaforo h);
 char *getSemaforoCorContorno(Semaforo h);
 void setSemaforoCorPreenchimento(Semaforo h, char *cor);
+void setSemaforoX(Semaforo s, double x);
+void setSemaforoY(Semaforo s, double y);
 void setSemaforoCorContorno(Semaforo h, char *cor);
 int semaforoInternoRetangulo(FILE **txt, Semaforo s, Retangulo r);
 int semaforoInternoCirculo(FILE **txt, Semaforo s, Circulo c);

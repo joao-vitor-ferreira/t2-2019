@@ -1,17 +1,32 @@
 i? 518 4.90000 67.88888
+i? 518 4.90000 67.88888
 o? 517 518
+o? 517 518
+cbq 100.0 100.0 200.0 green
 cbq 100.0 100.0 200.0 green
 cbq 0 0 300.0 blue
 crd? hnb04.4
+crd? hnb04.4
+crd? sfb04.3
 crd? sfb04.3
 d? 3 518
+d? 3 518
+bb a-001 red
 bb a-001 red
 dq L1 sfb04.3 100.000000
+dq L1 sfb04.3 100.000000
+dq L2 rbb05.1 150.000000
 dq L2 rbb05.1 150.000000
 del hnb04.4
 del rbb05.1
 del sfb04.3
+del sfb04.3
+del hnb04.4
 del hnb04.4
 crd? sfb04.3
-
+crd? hnb04.4
+trns 0 0 5000 5000 200 200
+trns 0 0 5000 5000 200 200
+trns 0 0 5000 5000 200 200
+trns 0 0 5000 5000 200 200
 

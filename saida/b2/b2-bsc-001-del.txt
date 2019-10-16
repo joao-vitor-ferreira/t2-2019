@@ -1,0 +1,12 @@
+id: b2-2.56 coordenadas (6085.000000, 125.800000)
+id: hneb2-3.13 coordenadas (1355.000000, 297.400000)
+id: rbb2-9.27 coordenadas (2945.000000, 801.800000)
+id: sfb2-18.44 coordenadas (4760.000000, 1573.600000)
+id: b2-2.56 foi removido
+id: hneb2-3.13 foi removido
+id: rbb2-9.27 foi removido
+id: sfb2-18.44 foi removido
+b2-2.56 não existe
+hneb2-3.13 não existe
+rbb2-9.27 não existe
+sfb2-18.44 não existe

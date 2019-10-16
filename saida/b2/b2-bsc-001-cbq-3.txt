@@ -1,0 +1,10 @@
+comando cbq
+cep: b2-1.29
+comando cbq
+cep: b2-1.30
+comando cbq
+cep: b2-1.31
+comando cbq
+cep: b2-2.30
+comando cbq
+cep: b2-2.31
