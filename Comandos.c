@@ -239,16 +239,58 @@ void svgVwSem(Semaforo s, ...){
 	ap2 = va_arg(ap1, va_list*);
 	va_copy(ap3, *ap2);
 	svgW = va_arg(ap3, double*);
-	svgW - va_arg(ap3, double*);
+	svgH = va_arg(ap3, double*);
 	svgCmpCirculo(svgH, svgW, getSemaforoX(s), getSemaforoY(s), 1.0);
+}
+
+void svgVwHid (Hidrante h, ...){
+	double *svgH, *svgW;
+	va_list ap1, *ap2, ap3;
+	va_start(ap1, h);
+	ap2 = va_arg(ap1, va_list*);
+	va_copy(ap3, *ap2);
+	svgW = va_arg(ap3, double*);
+	svgH = va_arg(ap3, double*);
+	svgCmpCirculo(svgH, svgW, getHidranteX(h), getHidranteY(h), 1.0);
+}
+
+void svgVwTor (Torre t, ...){
+	double *svgH, *svgW;
+	va_list ap1, *ap2, ap3;
+	va_start(ap1, t);
+	ap2 = va_arg(ap1, va_list*);
+	va_copy(ap3, *ap2);
+	svgW = va_arg(ap3, double*);
+	svgH = va_arg(ap3, double*);
+	svgCmpCirculo(svgH, svgW, getTorreX(t), getTorreY(t), 1.0);
+}
+
+void svgVwFor (void *t, ...){
+	double *svgH, *svgW;
+	int type;
+	va_list ap1, *ap2, ap3;
+	va_start(ap1, t);
+	type = va_arg(ap1, int);
+	ap2 = va_arg(ap1, va_list*);
+	va_copy(ap3, *ap2);
+	svgW = va_arg(ap3, double*);
+	svgH = va_arg(ap3, double*);
+	if (type){
+		svgCmpRetangulo(svgH, svgW, getRetanguloX(t), getRetanguloY(t), getRetanguloHeight(t), getRetanguloWidth(t));
+	} else {
+		svgCmpCirculo(svgH, svgW, getCirculoX(t), getCirculoY(t), 1.0);
+	}
+	
 }
 
 void calcViewBoxSvg(Cidade city, double *svgW, double *svgH){
 	throughCity(city, &svgVwQ, 'q', svgW, svgH);
-	throughCity(city, &calcViewBoxSvg, 's', svgW, svgH);
-	throughCity(city, &calcViewBoxSvg, 'h', svgW, svgH);
-	throughCity(city, &calcViewBoxSvg, 't', svgW, svgH);
-	throughCity(city, &calcViewBoxSvg, 'f', svgW, svgH);
+	throughCity(city, &svgVwSem, 's', svgW, svgH);
+	throughCity(city, &svgVwHid, 'h', svgW, svgH);
+	throughCity(city, &svgVwTor, 't', svgW, svgH);
+	throughCity(city, &svgVwFor, 'f', svgW, svgH);
+	printf("WWWW%f\n", *svgW);
+	printf("HHHH%f\n", *svgH);
 }
 
 void leituraGeo(int argc, char **argv, double *svgH, double *svgW, FILE *svgMain, Cidade *city){
@@ -405,6 +447,7 @@ void leituraGeo(int argc, char **argv, double *svgH, double *svgW, FILE *svgMain
 		}
 		
 	}
+	calcViewBoxSvg(*city, svgW, svgH);
 	funcFree(&cep);
 	funcFree(&cqf);
 	funcFree(&cqs);
@@ -561,7 +604,6 @@ void cbq(Quadra q, ...){
 		aux = (char*)malloc(sizeof(char)*(strlen(cor) + 1));
 		strcpy(aux, cor);
 		setQuadraCorContorno(q, aux);
-		printf("%s\n", getQuadraCorContorno(q));
 	}
 	va_end(ap1);
 	va_end(ap3);
@@ -954,7 +996,7 @@ void leituraQry(int argc, char **argv, double *svgH, double *svgW, FILE *svgQry,
 			} else{
 				fprintf(txt, "%s não existe\n", id);
 			}
-		} else if(strcmp(word, "trns") == 0){
+		} else if (strcmp(word, "trns") == 0){
 			sscanf(line, "%s %lf %lf %lf %lf %lf %lf", word, &x, &y, &width, &height, &dx, &dy);
 			if (txt == NULL){
 				aux = funcTxt(argc, argv);
@@ -963,10 +1005,11 @@ void leituraQry(int argc, char **argv, double *svgH, double *svgW, FILE *svgQry,
 			}
 			throughCity(*city, &trnsQua, 'q', x, y, width, height, dx, dy, txt);
 			throughCity(*city, &trnsSem, 's', x, y, width, height, dx, dy, txt);
-			throughCity(*city, &trnsHid , 'h', x, y, width, height, dx, dy, txt);
+			throughCity(*city, &trnsHid, 'h', x, y, width, height, dx, dy, txt);
 			throughCity(*city, &trnsTor, 't', x, y, width, height, dx, dy, txt);
 		}
 	}
+	calcViewBoxSvg(*city, svgW, svgH);
 	if (txt!= NULL)
 		fclose(txt);
 	funcFree(&id);

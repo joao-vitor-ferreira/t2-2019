@@ -1,4 +1,0 @@
-comando cbq
-cep: b02.3
-comando cbq
-cep: b03.3
