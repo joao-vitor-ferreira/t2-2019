@@ -290,6 +290,35 @@ void removeHidrante(Cidade city, Posic p){
     free(h1);
     removeList(newCity->lHid, p);
 }
+typedef void (*removeElement)(Cidade, Posic);
+
+void deleteListCity(Cidade city, Lista list, removeElement func){
+    Posic p = getFirst(list), paux;
+    for (; p >= 0;){
+        paux = getNext(list, p);
+        func(city, p);
+        p = paux;
+    }
+    deleteList(list);
+}
+
+void freeCidade(Cidade city){
+    cidade *newCity = (cidade*)city;
+    // printf("lista for\n");
+    deleteListCity(city, newCity->lFor, &removeForma);
+    // printf("lista hid\n");
+    deleteListCity(city, newCity->lHid, &removeHidrante);
+    // printf("lista qua\n");
+    deleteListCity(city, newCity->lQua, &removeQuadra);
+    // printf("lista sem\n");
+    deleteListCity(city, newCity->lSem, &removeSemaforo);
+    // printf("lista tor\n");
+    deleteListCity(city, newCity->lTor, &removeTorre);
+    if (newCity != NULL)
+        free(newCity);
+    
+
+}
 
 void printSvgCidade(Cidade city, FILE *svg){
     cidade *newCity = (cidade*)city;

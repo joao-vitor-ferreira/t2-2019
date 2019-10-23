@@ -289,8 +289,6 @@ void calcViewBoxSvg(Cidade city, double *svgW, double *svgH){
 	throughCity(city, &svgVwHid, 'h', svgW, svgH);
 	throughCity(city, &svgVwTor, 't', svgW, svgH);
 	throughCity(city, &svgVwFor, 'f', svgW, svgH);
-	printf("WWWW%f\n", *svgW);
-	printf("HHHH%f\n", *svgH);
 }
 
 void leituraGeo(int argc, char **argv, double *svgH, double *svgW, FILE *svgMain, Cidade *city){

@@ -58,5 +58,5 @@ int main (int argc, char **argv){
 		fprintf(svgQry, "<svg width=\"%f\" height=\"%f\">\n", svgW, svgH);
 		fclose(svgQry);
 	}
-
+	freeCidade(city);
 }
